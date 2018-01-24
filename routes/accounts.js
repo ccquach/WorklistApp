@@ -11,7 +11,7 @@ router.get("/", isLoggedIn, function(req, res) {
 			req.flash("error", "An error occurred while loading the accounts.");
 			res.redirect("/");
 		} else {
-			res.render("accounts/index", { accounts: accounts });
+			res.render("accounts/index", { accounts: accounts, page: "home" });
 		}
 	});
 });

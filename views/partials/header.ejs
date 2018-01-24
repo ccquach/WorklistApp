@@ -10,18 +10,18 @@
 		<div class="ui fixed borderless main menu">
 			<div class="ui container">
 				<a class="header item" href="/"><i class="green leaf icon"></i>Ethos Management</a>
-				<a class="item" href="/accounts">
+				<a class="ui item <%= typeof page !== 'undefined' && page === 'home' ? 'active' : '' %>" href="/accounts">
 					<i class="home icon"></i>
 					Home
 				</a>
 
 				<div class="right menu">
 					<% if(!currentUser) { %>
-						<a class="ui item" href="/login">Login</a>
+						<a class="ui item <%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>" href="/login">Login</a>
 					<% } else { %>
 						<a class="ui item" href="#">Hello, <%= currentUser.username %></a>
 						<% if(currentUser.isAdmin) { %>
-							<a class="ui item" href="/register">Register</a>
+							<a class="ui item <%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>" href="/register">Register</a>
 						<% } %>
 						<a class="ui item" href="/logout">Logout</a>
 					<% } %>
