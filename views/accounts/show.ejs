@@ -1,0 +1,102 @@
+<% include ../partials/header %>
+
+<div class="ui grid main container">
+	<div class="three wide field column">
+		<div class="ui secondary vertical menu">
+			<!-- PAGE NAVIGATION -->
+			<a class="active item" href="#">Patient Info</a>
+			<a class="item" href="#">Insurance</a>
+			<a class="item" href="#comments">Comments</a>
+		</div>
+	</div>
+
+	<div class="thirteen wide field column">
+		<!-- HEADER -->
+		<h2 class="ui center aligned icon header">
+			<i class="circular id card outline icon"></i>
+		</h2>
+		<!-- ACCOUNT SETTINGS -->
+		<div class="ui secondary menu">
+			<div class="right menu">
+				<span class="right floated item">Added by <%= account.author.username %> <%= moment(account.createdAt).fromNow() %></span>
+				<% if(currentUser && (account.author.id.equals(currentUser._id) || currentUser.isAdmin)) { %>
+					<div class="item">
+						<a data-tooltip="Edit" data-position="top center" href="/accounts/<%= account._id %>/edit">
+							<i class="edit link icon"></i>
+						</a>
+					</div>
+					<div class="item">
+						<form action="/accounts/<%= account._id %>?_method=DELETE" method="POST">
+							<button class="delete" data-tooltip="Delete" data-position="top center">
+								<i class="trash link icon"></i>
+							</button>
+						</form>
+					</div>
+				<% } %>
+			</div>
+		</div>
+		
+		<!-- PATIENT DETAILS -->
+		<table class="ui definition table">
+			<tbody>
+				<tr>
+					<td class="four wide column">Account #</td>
+					<td><%= account.number %></td>
+				</tr>
+				<tr>
+					<td>Patient Name</td>
+					<td><%= account.lastName %>, <%= account.firstName %></td>
+				</tr>
+				<tr>
+					<td>Current Balance</td>
+					<td>$<%= account.currentBalance.toFixed(2) %></td>
+				</tr>
+			</tbody>
+		</table>
+	
+		<!-- COMMENTS -->
+		<div id="comments" class="ui segment">
+			<div class="ui grid">
+				<!-- NEW COMMENT BUTTON -->
+				<div class="sixteen wide column">
+					<a class="ui right floated labeled green icon button" href="/accounts/<%= account._id %>/comments/new">
+						<i class="comment outline icon"></i>
+						Comment
+					</a>
+				</div>
+
+				<!-- DISPLAY COMMENTS -->
+				<div class="sixteen wide column">
+					<div class="ui divider"></div>
+					<div class="ui comments">
+						<% account.comments.forEach(function(comment) { %>
+							<div class="comment">
+								<div class="content">
+									<span class="author"><%= comment.author.username %></span>
+									<div class="metadata">
+										<span class="date"><%= moment(comment.createdAt).fromNow() %></span>
+									</div>
+									<div class="text">
+										<p><%= comment.content %></p>
+									</div>
+									<% if(currentUser && currentUser.isAdmin) { %>
+										<div class="actions">
+											<a href="/accounts/<%= account._id %>/comments/<%= comment._id %>/edit">Edit</a>
+											<a>
+												<form action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+													<input class="delete" type="submit" value="Delete">
+												</form>
+											</a>
+										</div>
+									<% } %>
+								</div>
+							</div>
+						<% }) %>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% include ../partials/footer %>

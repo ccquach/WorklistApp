@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Worklist Application</title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/lib/semantic-ui-css/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/landing.css">
+		<script type="text/javascript" src="/scripts/lib/Modernizr.js" async=""></script>
+	</head>
+
+	<body>
+		<% if(success && success.length > 0) { %>
+			<div class="flash-message container">
+				<div class="ui visible success message">
+					<%= success %>
+				</div>
+			</div>
+		<% } %>
+		<% if(error && error.length > 0) { %>
+			<div class="flash-message container">
+				<div class="ui visible error message">
+					<%= error %>
+				</div>
+			</div>
+		<% } %>
+
+		<div id="landing-header" class="ui main container">
+			<h1>Ethos Management</h1>
+			<h3>Worklist Application</h3>
+			<hr>
+			<a class="ui primary button" href="/login">Get Started</a>
+		</div>
+
+		<ul class="slideshow">
+			<li>
+				<span></span>
+				<div class="footer">
+					<p>Photo by Helloquence on Unsplash</p>
+				</div>
+			</li>
+			<li>
+				<span></span>
+				<div class="footer">
+					<p>Photo by rawpixel.com on Unsplash</p>
+				</div>
+			</li>
+			<li>
+				<span></span>
+				<div class="footer">
+					<p>Photo by Alvin Engler on Unsplash</p>
+				</div>
+			</li>
+			<li>
+				<span></span>
+				<div class="footer">
+					<p>Photo by Bekir Donmez on Unsplash</p>
+				</div>
+			</li>
+			<li>
+				<span></span>
+				<div class="footer">
+					<p>Photo by Dose Media on Unsplash</p>
+				</div>
+			</li>
+			<li>
+				<span></span>
+				<div class="footer">
+					<p></p>
+				</div>
+			</li>
+		</ul>
+
+<% include ./partials/footer %>

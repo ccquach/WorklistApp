@@ -1,0 +1,20 @@
+<% include ./partials/header %>
+
+<div id="register" class="ui main text segment container">
+	<form class="ui form" action="/register" method="POST">
+		<div class="ui header">Register New User</div>
+	
+		<div class="field">
+			<input type="text" name="username" placeholder="username" autofocus="true">
+		</div>
+		<div class="field">
+			<input type="password" name="password" placeholder="password">
+		</div>
+		<div class="field">
+			<input type="text" name="adminCode" placeholder="Admin code">
+		</div>
+		<button class="ui blue button">Submit</button>
+	</form>
+</div>
+
+<% include ./partials/footer %>

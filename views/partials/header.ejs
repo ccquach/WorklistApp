@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Worklist Application</title>
+		<link rel="stylesheet" type="text/css" href="/stylesheets/lib/semantic-ui-css/semantic.min.css">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+	</head>
+
+	<body>
+		<div class="ui fixed borderless main menu">
+			<div class="ui container">
+				<a class="header item" href="/"><i class="green leaf icon"></i>Ethos Management</a>
+				<a class="item" href="/accounts">
+					<i class="home icon"></i>
+					Home
+				</a>
+
+				<div class="right menu">
+					<% if(!currentUser) { %>
+						<a class="ui item" href="/login">Login</a>
+					<% } else { %>
+						<a class="ui item" href="#">Hello, <%= currentUser.username %></a>
+						<% if(currentUser.isAdmin) { %>
+							<a class="ui item" href="/register">Register</a>
+						<% } %>
+						<a class="ui item" href="/logout">Logout</a>
+					<% } %>
+				</div>
+			</div>
+		</div>
+
+		<% if(success && success.length > 0) { %>
+			<div class="flash-message container">
+				<div class="ui visible success message">
+					<%= success %>
+				</div>
+			</div>
+		<% } %>
+		<% if(error && error.length > 0) { %>
+			<div class="flash-message container">
+				<div class="ui visible error message">
+					<%= error %>
+				</div>
+			</div>
+		<% } %>

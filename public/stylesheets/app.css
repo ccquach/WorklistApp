@@ -1,0 +1,100 @@
+* {
+	box-sizing: border-box;
+}
+
+/* Hide number input spin button */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+html {
+	height: 100%;
+}
+
+/* ======================== */
+/* Menu 					*/
+/* ======================== */
+.ui.main.menu {
+	border: none;
+}
+
+.main.menu i.icon,
+.secondary.menu i.icon {
+	font-size: 1.5em;	
+}
+
+.ui.vertical.menu {
+	width: 11%;
+	overflow: visible;
+	position: fixed;
+	/*padding-top: 170px;*/
+	padding-top: 12.5em;
+}
+
+.menu i.search.icon {
+	font-size: 1.0em;
+}
+
+/* ======================== */
+/* Container 				*/
+/* ======================== */
+.container.main {
+	margin: 5.0em;
+}
+
+/* ======================== */
+/* Comment 					*/
+/* ======================== */
+.ui.comments {
+	max-width: 95%;
+}
+
+#comments .sixteen.wide.column:nth-of-type(1) {
+	padding-bottom: 0;
+}
+
+/* ======================== */
+/* Icons 					*/
+/* ======================== */
+a i.icon,
+button i.icon {
+	color: rgba(0,0,0,.87);
+}
+
+
+/* ======================== */
+/* Account delete icon 		*/
+/* ======================== */
+.delete {
+	background: none;
+	border: none;
+	color: inherit;
+	font-family: inherit;
+}
+
+/* ======================== */
+/* Auth Forms 				*/
+/* ======================== */
+#login, #register {
+	margin: 7.0em;
+	text-align: center;
+	width: 30%;
+}
+
+#login .ui.button,
+#register .ui.button {
+	display: block;
+	width: 100%;
+}
+
+/* ======================== */
+/* Error/Success Message	*/
+/* ======================== */
+.flash-message {
+	width: 85%;
+	margin: 0 auto;
+	padding-top: 80px;
+}
