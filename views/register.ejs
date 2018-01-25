@@ -1,18 +1,44 @@
 <% include ./partials/header %>
 
-<div id="register" class="ui main text segment container">
+<div class="ui main text segment container">
 	<form class="ui form" action="/register" method="POST">
-		<div class="ui header">Register New User</div>
+		<div class="ui dividing header">Register New User</div>
 	
 		<div class="field">
-			<input type="text" name="username" placeholder="username" autofocus>
+			<label>Name</label>
+			<div class="two fields">
+				<div class="field">
+					<input type="text" name="firstName" placeholder="First Name" autofocus>
+				</div>
+				<div class="field">
+					<input type="text" name="lastName" placeholder="Last Name">
+				</div>
+			</div>
 		</div>
+
 		<div class="field">
-			<input type="password" name="password" placeholder="password">
+			<label>Email</label>
+			<input type="email" name="email" placeholder="Email address" required>
 		</div>
+
 		<div class="field">
-			<input type="text" name="adminCode" placeholder="Admin code">
+			<div class="two fields">
+				<div class="field">
+					<label>Username</label>
+					<input type="text" name="username" placeholder="Username">
+				</div>
+				<div class="field">
+					<label>Password</label>
+					<input type="password" name="password" placeholder="Password">
+				</div>
+			</div>
+			
+			<div class="field">
+				<label>Permissions</label>
+				<input type="text" name="adminCode" placeholder="Admin code">
+			</div>
 		</div>
+		
 		<button class="ui blue button">Submit</button>
 	</form>
 </div>
