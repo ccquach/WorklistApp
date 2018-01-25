@@ -23,7 +23,12 @@ router.get("/register", isLoggedIn, isAdmin, function(req, res) {
 
 // handle sign up logic
 router.post("/register", isLoggedIn, isAdmin, function(req, res) {
-	var newUser = new User({ username: req.body.username });
+	var newUser = new User({ 
+		username: req.body.username,
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		email: req.body.email 
+	});
 	if(req.body.adminCode === "pass1") {
 		newUser.isAdmin = true;
 	}
@@ -33,7 +38,7 @@ router.post("/register", isLoggedIn, isAdmin, function(req, res) {
 			return res.redirect("/register");
 		}
 		req.flash("success", "Registration completed for new user.");
-		res.back();
+		res.redirect("/accounts");
 		// passport.authenticate("local")(req, res, function() {
 		// 	res.redirect("/accounts");
 		// });
@@ -122,6 +127,16 @@ router.post("/forgot", function(req, res, next) {
 	], function(err) {
 		if(err) return next(err);
 		res.redirect("/forgot");
+	});
+});
+
+router.get("/reset/:token", function(req, res) {
+	User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+		if(!user) {
+			req.flash("error", "Password reset token is invalid or has expired.");
+			return res.redirect("/forgot");
+		}
+		res.render("reset", { token: req.params.token });
 	});
 });
 

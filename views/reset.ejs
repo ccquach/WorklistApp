@@ -1,0 +1,17 @@
+<% include ./partials/header %>
+
+<div id="reset" class="ui main text segment container">
+	<form class="ui form" action="/reset/<%= token %>" method="POST">
+		<div class="ui header">Reset Password</div>
+
+		<div class="field">
+			<input type="password" name="password" placeholder="New password" autofocus required>
+		</div>
+		<div class="field">
+			<input type="password" name="confirm" placeholder="Confirm password" required>
+		</div>
+		<button class="ui blue button">Update Password</button>
+	</form>
+</div>
+
+<% include ./partials/footer %>  
