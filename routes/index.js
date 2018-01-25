@@ -140,4 +140,61 @@ router.get("/reset/:token", function(req, res) {
 	});
 });
 
+router.post("/reset/:token", function(req, res) {
+	async.waterfall([
+		// reset password
+		function(done) {
+			User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
+				if(!user) {
+					req.flash("error", "Password reset token is invalid or has expired.");
+					return res.back();
+				}
+				if(req.body.password === req.body.confirm) {
+					user.setPassword(req.body.password, function(err) {
+						user.resetPasswordToken = undefined;
+						user.resetPasswordExpires = undefined;
+
+						user.save(function(err) {
+							req.logIn(user, function(err) {
+								done(err, user);
+							});
+						});
+					});
+				} else {
+					req.flash("error", "Passwords do not match.");
+					return res.back();
+				}
+			});
+		},
+		// send confirmation email
+		function(user, done) {
+			// set service
+			var smtpTransport = nodemailer.createTransport({
+				service: "Gmail",										// TODO: update with Outlook + credentials
+				auth: {
+					user: process.env.GMAIL_EMAIL,						
+					pass: process.env.GMAIL_PASS
+				}
+			});
+			// compose email
+			var mailOptions = {
+				to: user.email,
+				from: process.env.GMAIL_EMAIL,							// TODO: update with work email
+				subject: "Your Worklist password has been changed",
+				text: "Hello " + user.firstName + ",\n\n" +
+					  "This is a confirmation that the password for your account " + user.email + " has just been changed.\n"
+			};
+			// send email
+			smtpTransport.sendMail(mailOptions, function(err) {
+				console.log("Password reset confirmation email sent to " + user.email);
+				req.flash("success", "Your password has been changed.");
+				done(err);
+			});
+		}
+	], function(err) {
+		if(err) return next(err);
+		res.redirect("/accounts");
+	});
+});
+
 module.exports = router;
