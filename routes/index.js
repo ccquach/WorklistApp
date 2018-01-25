@@ -2,6 +2,9 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
+var async = require("async");
+var nodemailer = require("nodemailer");
+var crypto = require("crypto");
 var middleware = require("../middleware");
 const { isAdmin } = middleware;
 
@@ -55,6 +58,13 @@ router.get("/logout", function(req, res) {
 	req.logout();
 	req.flash("success", "You have been successfully logged out.");
 	res.redirect("/");
+});
+
+// ============================
+// PASSWORD RESET ROUTES
+// ============================
+router.get("/forgot", function(req, res) {
+	res.render("forgot");
 });
 
 module.exports = router;
