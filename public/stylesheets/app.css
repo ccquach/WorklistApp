@@ -80,7 +80,8 @@ button i.icon {
 /* ======================== */
 #login, 
 #register,
-#forgot {
+#forgot,
+#reset {
 	margin: 7.0em;
 	text-align: center;
 	width: 30%;
@@ -88,9 +89,11 @@ button i.icon {
 
 #login .ui.button,
 #register .ui.button,
-#forgot .ui.button {
+#forgot .ui.button,
+#reset .ui.button {
 	display: block;
 	width: 100%;
+	margin-bottom: 8px;
 }
 
 /* ======================== */
