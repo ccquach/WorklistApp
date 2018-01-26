@@ -54,20 +54,51 @@
 			</tbody>
 		</table>
 	
-		<!-- COMMENTS -->
+		<!-- Comments Section START -->
 		<div id="comments" class="ui segment">
 			<div class="ui grid">
-				<!-- NEW COMMENT BUTTON -->
 				<div class="sixteen wide column">
-					<a class="ui right floated labeled green icon button" href="/accounts/<%= account._id %>/comments/new">
-						<i class="comment outline icon"></i>
-						Comment
-					</a>
+					<div class="ui fluid accordion">
+						<div class="title">
+							<div class="ui two column grid">
+								<div class="column">
+									<!-- Comments section title -->
+									<h3 class="ui header">
+										<i class="comment outline icon"></i>
+										Comments
+									</h3>
+								</div>
+								<!-- Add new comment button toggles collapsible comment box -->
+								<div class="column">
+									<button class="ui right floated labeled green icon button">
+										<i class="plus inverted icon"></i>
+										Add Comment
+									</button>
+								</div>
+							</div>
+						</div>
+						<div id="collapseComment" class="content">
+							<h4>
+								Write your comment
+								<i class="write icon"></i>
+							</h4>
+							<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments" method="POST">
+								<div class="field">
+									<textarea autofocus name="comment[content]" placeholder="Write your comment..." required></textarea>
+								</div>
+								<button class="ui labeled icon button">
+									<i class="comment outline icon"></i>
+									Submit  
+								</button>
+							</form>
+						</div>
+					</div>
+				<div class="ui divider"></div>
 				</div>
 
 				<!-- DISPLAY COMMENTS -->
 				<div class="sixteen wide column">
-					<div class="ui divider"></div>
+					
 					<div class="ui comments">
 						<% account.comments.forEach(function(comment) { %>
 							<div class="comment">
@@ -96,9 +127,17 @@
 				</div>
 			</div>
 		</div>
+		<!-- Comments Section END -->
 	</div>
 </div>
 
-<script type="text/javascript" src="../scripts/show.js"></script>
+<script type="text/javascript" src="/scripts/show.js"></script>
+
+<!-- initialize accordion -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".ui.accordion").accordion();
+	});
+</script>
 
 <% include ../partials/footer %>
