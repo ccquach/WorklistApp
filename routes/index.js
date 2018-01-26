@@ -20,7 +20,12 @@ router.get("/register", isLoggedIn, isAdmin, function(req, res) {
 
 // handle sign up logic
 router.post("/register", isLoggedIn, isAdmin, function(req, res) {
-	var newUser = new User({ username: req.body.username });
+	var newUser = new User({ 
+		username: req.body.username,
+		firstName: req.body.firstName,
+		lastName: req.body.lastName,
+		email: req.body.email 
+	});
 	if(req.body.adminCode === "pass1") {
 		newUser.isAdmin = true;
 	}
