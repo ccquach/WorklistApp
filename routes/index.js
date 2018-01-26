@@ -18,7 +18,7 @@ router.get("/", function(req, res) {
 // ============================
 // show registration form
 router.get("/register", isLoggedIn, isAdmin, function(req, res) {
-	res.render("register", { title: "register" });
+	res.render("register", { page: "register" });
 });
 
 // handle sign up logic
