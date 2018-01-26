@@ -78,16 +78,22 @@ button i.icon {
 /* ======================== */
 /* Auth Forms 				*/
 /* ======================== */
-#login, #register {
+#login, 
+#register,
+#forgot,
+#reset {
 	margin: 7.0em;
 	text-align: center;
 	width: 30%;
 }
 
 #login .ui.button,
-#register .ui.button {
+#register .ui.button,
+#forgot .ui.button,
+#reset .ui.button {
 	display: block;
 	width: 100%;
+	margin-bottom: 8px;
 }
 
 /* ======================== */

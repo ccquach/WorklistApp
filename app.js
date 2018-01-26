@@ -17,6 +17,9 @@ var Account 			= require("./models/account"),
 	Comment 			= require("./models/comment"),
 	User 				= require("./models/user");
 
+// CONFIGURE DOTENV
+require("dotenv").config();
+
 // REQUIRING ROUTES
 var indexRoutes 		= require("./routes/index"),
 	accountRoutes 		= require("./routes/accounts"),
