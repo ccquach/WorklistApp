@@ -54,7 +54,9 @@ router.get("/login", function(req, res) {
 router.post("/login", passport.authenticate("local", 
 	{
 		successRedirect: "/accounts",
-		failureRedirect: "/login"
+		failureRedirect: "/login",
+		failureFlash: true,
+		successFlash: "Welcome to the Worklist Application!"
 	}), function(req, res){
 });
 
