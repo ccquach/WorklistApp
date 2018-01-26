@@ -27,7 +27,10 @@
 			<h1>Ethos Management</h1>
 			<h3>Worklist Application</h3>
 			<hr>
-			<a class="ui primary button" href="/login">Get Started</a>
+			<a class="ui primary button" 
+		   	   href="<%= typeof currentUser !== 'undefined' ? '/accounts' : '/login' %>">
+				Get Started
+			</a>
 		</div>
 
 		<ul class="slideshow">
