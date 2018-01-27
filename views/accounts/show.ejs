@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		
-		<!-- PATIENT DETAILS -->
+		<!-- Patient Details -->
 		<table class="ui definition table">
 			<tbody>
 				<tr>
@@ -54,51 +54,148 @@
 			</tbody>
 		</table>
 	
-		<!-- COMMENTS -->
+		<!-- Comments Section START -->
 		<div id="comments" class="ui segment">
 			<div class="ui grid">
-				<!-- NEW COMMENT BUTTON -->
+				<!-- Add New Comment START -->
 				<div class="sixteen wide column">
-					<a class="ui right floated labeled green icon button" href="/accounts/<%= account._id %>/comments/new">
-						<i class="comment outline icon"></i>
-						Comment
-					</a>
+					<div class="ui fluid accordion">
+						<!-- ACCORDION TOGGLE -->
+						<div class="title">
+							<div class="ui two column grid">
+								<div class="column">
+									<!-- Comments section title -->
+									<h3 class="ui header">
+										<i class="comment outline icon"></i>
+										Comments
+									</h3>
+								</div>
+								<!-- Add new comment button toggles collapsible comment box -->
+								<div class="column">
+									<button class="ui right floated labeled green icon button">
+										<i class="plus inverted icon"></i>
+										Add Comment
+									</button>
+								</div>
+							</div>
+						</div>
+						<!-- COLLAPSIBLE COMMENT BOX -->
+						<div class="content">
+							<div id="new-comment" class="ui segment">
+								<h4>
+									Write your comment
+									<i class="write icon"></i>
+								</h4>
+								<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments" method="POST">
+									<div class="field">
+										<input type="text" value="<%= currentUser.username %>" disabled>
+									</div>
+									<div class="field">
+										<textarea autofocus name="comment[content]" placeholder="Write your comment..." required></textarea>
+									</div>
+									<button class="ui labeled icon button">
+										<i class="comment outline icon"></i>
+										Submit  
+									</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!-- Add New Comment END -->
+				<div class="ui divider"></div>
 				</div>
 
-				<!-- DISPLAY COMMENTS -->
+				<!-- Display Comments START -->
 				<div class="sixteen wide column">
-					<div class="ui divider"></div>
+					<!-- Display message if no comments exist -->
+					<% if(account.comments.length === 0) { %>
+						<p><em>No comments yet.</em></p>
+					<% } %>
+
+					<!-- Loop through comments -->
 					<div class="ui comments">
 						<% account.comments.forEach(function(comment) { %>
 							<div class="comment">
 								<div class="content">
-									<span class="author"><%= comment.author.username %></span>
-									<div class="metadata">
-										<span class="date"><%= moment(comment.createdAt).fromNow() %></span>
-									</div>
-									<div class="text">
-										<p><%= comment.content %></p>
-									</div>
-									<% if(currentUser && currentUser.isAdmin) { %>
-										<div class="actions">
-											<a href="/accounts/<%= account._id %>/comments/<%= comment._id %>/edit">Edit</a>
-											<a>
-												<form action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-													<input class="delete" type="submit" value="Delete">
-												</form>
-											</a>
+									<div class="ui fluid grid">
+										<% if(currentUser && currentUser.isAdmin) { %>
+											<div class="thirteen wide column">
+										<% } else { %>
+											<div class="sixteen wide column">
+										<% } %>
+											<!-- author -->
+											<span class="author"><%= comment.author.username %></span>
+											<!-- created at -->
+											<div class="metadata">
+												<span class="date"><%= moment(comment.createdAt).fromNow() %></span>
+											</div>
+											<!-- content -->
+											<div class="text">
+												<p><%= comment.content %></p>
+											</div>
+											<!-- edit button -->
+											<% if(currentUser && currentUser.isAdmin) { %>
+												<div class="actions">
+													<!-- collapsible edit form -->
+													<div class="ui fluid accordion">
+														<div class="title">
+															<a>Edit</a>
+														</div>
+														<div class="content">
+															<div id="edit-comment" class="ui segment">
+																<h4>
+																	Edit Comment
+																	<i class="edit icon"></i>
+																</h4>
+																<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+																	<div class="field">
+																		<input type="text" value="<%= comment.author.username %>" disabled>
+																	</div>
+																	<div class="field">
+																		<textarea autofocus name="comment[content]" placeholder="Your comment text..." required><%= comment.content %></textarea>
+																	</div>
+																	<button class="ui labeled icon button">
+																		<i class="comment outline icon"></i>
+																		Update  
+																	</button>
+																</form>
+															</div>
+														</div>
+													</div>
+												</div>
+											<% } %>
 										</div>
-									<% } %>
-								</div>
-							</div>
-						<% }) %>
-					</div>
+										<!-- delete button -->
+										<div class="three wide column">
+											<% if(currentUser && currentUser.isAdmin) { %>
+												<button class="ui mini right floated negative labeled icon button">
+													<i class="trash outline icon"></i>
+													<form action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+														<input class="delete" type="submit" value="Delete">
+													</form>
+												</button>
+											<% } %>
+										</div>
+									</div>  <!-- comment fluid grid -->
+								</div>  <!-- comment content -->
+							</div>  <!-- comment -->
+						<% }) %>  <!-- comments for each -->
+					</div>  <!-- ui comments -->
 				</div>
+				<!-- Display Comments END -->
 			</div>
 		</div>
+		<!-- Comments Section END -->
 	</div>
 </div>
 
-<script type="text/javascript" src="../scripts/show.js"></script>
+<script type="text/javascript" src="/scripts/show.js"></script>
+
+<!-- initialize accordion -->
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".ui.accordion").accordion();
+	});
+</script>
 
 <% include ../partials/footer %>

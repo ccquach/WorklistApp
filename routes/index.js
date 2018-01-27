@@ -54,7 +54,9 @@ router.get("/login", function(req, res) {
 router.post("/login", passport.authenticate("local", 
 	{
 		successRedirect: "/accounts",
-		failureRedirect: "/login"
+		failureRedirect: "/login",
+		failureFlash: true,
+		successFlash: "Welcome to the Worklist Application!"
 	}), function(req, res){
 });
 
@@ -62,7 +64,7 @@ router.post("/login", passport.authenticate("local",
 router.get("/logout", function(req, res) {
 	req.logout();
 	req.flash("success", "You have been successfully logged out.");
-	res.redirect("/");
+	res.redirect("/login");
 });
 
 // ============================
