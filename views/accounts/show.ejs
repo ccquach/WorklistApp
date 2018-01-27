@@ -118,7 +118,11 @@
 							<div class="comment">
 								<div class="content">
 									<div class="ui fluid grid">
-										<div class="thirteen wide column">
+										<% if(currentUser && currentUser.isAdmin) { %>
+											<div class="thirteen wide column">
+										<% } else { %>
+											<div class="sixteen wide column">
+										<% } %>
 											<!-- author -->
 											<span class="author"><%= comment.author.username %></span>
 											<!-- created at -->
@@ -129,7 +133,7 @@
 											<div class="text">
 												<p><%= comment.content %></p>
 											</div>
-											<!-- edit/delete buttons -->
+											<!-- edit button -->
 											<% if(currentUser && currentUser.isAdmin) { %>
 												<div class="actions">
 													<!-- collapsible edit form -->
@@ -161,20 +165,22 @@
 												</div>
 											<% } %>
 										</div>
+										<!-- delete button -->
 										<div class="three wide column">
-											<!-- delete button -->
-											<button class="ui mini right floated negative labeled icon button">
-												<i class="trash outline icon"></i>
-												<form action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-													<input class="delete" type="submit" value="Delete">
-												</form>
-											</button>
+											<% if(currentUser && currentUser.isAdmin) { %>
+												<button class="ui mini right floated negative labeled icon button">
+													<i class="trash outline icon"></i>
+													<form action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+														<input class="delete" type="submit" value="Delete">
+													</form>
+												</button>
+											<% } %>
 										</div>
-									</div>
-								</div>
-							</div>
-						<% }) %>
-					</div>
+									</div>  <!-- comment fluid grid -->
+								</div>  <!-- comment content -->
+							</div>  <!-- comment -->
+						<% }) %>  <!-- comments for each -->
+					</div>  <!-- ui comments -->
 				</div>
 				<!-- Display Comments END -->
 			</div>
