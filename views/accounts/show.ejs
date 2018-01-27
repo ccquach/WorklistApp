@@ -108,8 +108,8 @@
 						<% account.comments.forEach(function(comment) { %>
 							<div class="comment">
 								<div class="content">
-									<div class="ui grid">
-										<div class="fourteen wide column">
+									<div class="ui fluid grid">
+										<div class="thirteen wide column">
 											<!-- author -->
 											<span class="author"><%= comment.author.username %></span>
 											<!-- created at -->
@@ -147,9 +147,9 @@
 												</div>
 											<% } %>
 										</div>
-										<div class="two wide column">
+										<div class="three wide column">
 											<!-- delete button -->
-											<button class="ui mini negative labeled icon button">
+											<button class="ui mini right floated negative labeled icon button">
 												<i class="trash outline icon"></i>
 												<form action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
 													<input class="delete" type="submit" value="Delete">
