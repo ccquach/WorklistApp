@@ -36,7 +36,7 @@
 			</div>
 		</div>
 		
-		<!-- PATIENT DETAILS -->
+		<!-- Patient Details -->
 		<table class="ui definition table">
 			<tbody>
 				<tr>
@@ -57,8 +57,10 @@
 		<!-- Comments Section START -->
 		<div id="comments" class="ui segment">
 			<div class="ui grid">
+				<!-- Add New Comment START -->
 				<div class="sixteen wide column">
 					<div class="ui fluid accordion">
+						<!-- ACCORDION TOGGLE -->
 						<div class="title">
 							<div class="ui two column grid">
 								<div class="column">
@@ -77,54 +79,90 @@
 								</div>
 							</div>
 						</div>
-						<div id="collapseComment" class="content">
-							<h4>
-								Write your comment
-								<i class="write icon"></i>
-							</h4>
-							<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments" method="POST">
-								<div class="field">
-									<textarea autofocus name="comment[content]" placeholder="Write your comment..." required></textarea>
-								</div>
-								<button class="ui labeled icon button">
-									<i class="comment outline icon"></i>
-									Submit  
-								</button>
-							</form>
+						<!-- COLLAPSIBLE COMMENT BOX -->
+						<div class="content">
+							<div class="ui segment">
+								<h4>
+									Write your comment
+									<i class="write icon"></i>
+								</h4>
+								<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments" method="POST">
+									<div class="field">
+										<textarea autofocus name="comment[content]" placeholder="Write your comment..." required></textarea>
+									</div>
+									<button class="ui labeled icon button">
+										<i class="comment outline icon"></i>
+										Submit  
+									</button>
+								</form>
+							</div>
 						</div>
 					</div>
+					<!-- Add New Comment END -->
 				<div class="ui divider"></div>
 				</div>
 
-				<!-- DISPLAY COMMENTS -->
+				<!-- Display Comments START -->
 				<div class="sixteen wide column">
-					
 					<div class="ui comments">
 						<% account.comments.forEach(function(comment) { %>
 							<div class="comment">
 								<div class="content">
-									<span class="author"><%= comment.author.username %></span>
-									<div class="metadata">
-										<span class="date"><%= moment(comment.createdAt).fromNow() %></span>
-									</div>
-									<div class="text">
-										<p><%= comment.content %></p>
-									</div>
-									<% if(currentUser && currentUser.isAdmin) { %>
-										<div class="actions">
-											<a href="/accounts/<%= account._id %>/comments/<%= comment._id %>/edit">Edit</a>
-											<a>
+									<div class="ui grid">
+										<div class="fourteen wide column">
+											<!-- author -->
+											<span class="author"><%= comment.author.username %></span>
+											<!-- created at -->
+											<div class="metadata">
+												<span class="date"><%= moment(comment.createdAt).fromNow() %></span>
+											</div>
+											<!-- content -->
+											<div class="text">
+												<p><%= comment.content %></p>
+											</div>
+											<!-- edit/delete buttons -->
+											<% if(currentUser && currentUser.isAdmin) { %>
+												<div class="actions">
+													<!-- collapsible edit form -->
+													<div class="ui fluid accordion">
+														<div class="title">
+															<a>Edit</a>
+														</div>
+														<div class="content">
+															<h4>
+																Edit Comment
+																<i class="edit icon"></i>
+															</h4>
+															<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+																<div class="field">
+																	<textarea autofocus name="comment[content]" placeholder="Your comment text..." required><%= comment.content %></textarea>
+																</div>
+																<button class="ui labeled icon button">
+																	<i class="comment outline icon"></i>
+																	Update  
+																</button>
+															</form>
+														</div>
+													</div>
+												</div>
+											<% } %>
+										</div>
+										<div class="two wide column">
+											<!-- delete button -->
+											<button class="ui mini negative labeled icon button">
+												<i class="trash outline icon"></i>
 												<form action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
 													<input class="delete" type="submit" value="Delete">
 												</form>
-											</a>
+											</button>
 										</div>
-									<% } %>
+									</div>
 								</div>
 							</div>
 						<% }) %>
 					</div>
 				</div>
+				<!-- Display Comments END -->
 			</div>
 		</div>
 		<!-- Comments Section END -->
