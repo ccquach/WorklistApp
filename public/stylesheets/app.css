@@ -62,17 +62,22 @@ html {
 a i.icon,
 button i.icon {
 	color: rgba(0,0,0,.87);
+	vertical-align: middle;
 }
 
 
 /* ======================== */
 /* Account delete icon 		*/
 /* ======================== */
-.delete {
+input.delete,
+.ui.modal .delete.button {
 	background: none;
 	border: none;
 	color: inherit;
 	font-family: inherit;
+}
+.ui.modal div.content {
+	text-align: center;
 }
 
 /* ======================== */
