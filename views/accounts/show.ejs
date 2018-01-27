@@ -88,6 +88,9 @@
 								</h4>
 								<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments" method="POST">
 									<div class="field">
+										<input type="text" value="<%= currentUser.username %>" disabled>
+									</div>
+									<div class="field">
 										<textarea autofocus name="comment[content]" placeholder="Write your comment..." required></textarea>
 									</div>
 									<button class="ui labeled icon button">
@@ -141,6 +144,9 @@
 																	<i class="edit icon"></i>
 																</h4>
 																<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+																	<div class="field">
+																		<input type="text" value="<%= comment.author.username %>" disabled>
+																	</div>
 																	<div class="field">
 																		<textarea autofocus name="comment[content]" placeholder="Your comment text..." required><%= comment.content %></textarea>
 																	</div>
