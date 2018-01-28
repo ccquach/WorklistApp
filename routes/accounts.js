@@ -48,8 +48,8 @@ router.post("/", isLoggedIn, function(req, res) {
 	// Create new account
 	Account.create(newAccount, function(err, newAccount) {
 		if(err) {
-			req.flash("error", "Failed to create new account.");
-			res.render("accounts/new");
+			req.flash("error", "Failed to create new account: " + err.message);
+			res.redirect("/accounts/new");
 		} else {
 			console.log("=== NEW ===:\n" + newAccount);
 			req.flash("success", "Successfully created new account.")

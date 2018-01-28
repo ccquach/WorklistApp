@@ -1,7 +1,8 @@
 var mongoose = require("mongoose");
+var uniqueValidator = require("mongoose-unique-validator");
 
 var accountSchema = new mongoose.Schema({
-	number: String,
+	number: { type: String, unique: true },
 	firstName: String,
 	lastName: String,
 	currentBalance: Number,
@@ -21,4 +22,7 @@ var accountSchema = new mongoose.Schema({
 		}
 	]
 });
+
+accountSchema.plugin(uniqueValidator);
+
 module.exports = mongoose.model("Account", accountSchema);
