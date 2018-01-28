@@ -52,7 +52,81 @@
 			<% }) %>
 		</tbody>
 		<tfoot>
-			<tr>
+			<!-- Pagination -->
+			<% if (pages && pages > 0) { %>
+				<tr>
+					<th colspan="5">
+						<div class="ui right floated pagination menu">
+							<!-- First -->
+							<% if (current == 1) { %>
+								<a class="icon item">
+									<i class="large angle double left icon"></i>
+								</a>
+							<% } else { %>
+								<a class="icon item" href="/accounts">
+									<i class="large angle double left icon"></i>
+								</a>
+							<% } %>
+
+							<!-- Left Chevron -->
+							<% if (current == 1) { %>
+								<a class="icon item">
+									<i class="left chevron icon"></i>
+								</a>
+							<% } else { %>
+								<a class="icon item" href="/accounts?page=<%= Number(current) - 1 %>">
+									<i class="left chevron icon"></i>
+								</a>
+							<% } %>
+
+							<!-- Left Continued -->
+							<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+							<% if (i !== 1) { %>
+								<a class="item">...</a>
+							<% } %>
+
+							<% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+								<!-- Pages -->
+								<% if (i == current) { %>
+									<a class="active item"><%= i %></a>
+								<% } else { %>
+									<a class="item" href="/accounts?page=<%= i %>"><%= i %></a>
+								<% } %>
+
+								<!-- Right Continued -->
+								<% if (i === Number(current) + 4 && i < pages) { %>
+									<a class="item">...</a>
+								<% } %>
+							<% } %>
+
+							<!-- Right Chevron -->
+							<% if (current == pages) { %>
+								<a class="icon item">
+									<i class="right chevron icon"></i>
+								</a>
+							<% } else { %>
+								<a class="icon item" href="/accounts?page=<%= Number(current) + 1 %>">
+									<i class="right chevron icon"></i>
+								</a>
+							<% } %>
+
+							<!-- Last -->
+							<% if (current == pages) { %>
+								<a class="icon item">
+									<i class="large angle double right icon"></i>
+								</a>
+							<% } else { %>
+								<a class="icon item" href="/accounts?page=<%= pages %>">
+									<i class="large angle double right icon"></i>
+								</a>
+							<% } %>
+						</div>
+					</th>
+				</tr>
+			<% } %>
+
+
+			<!-- <tr>
 				<th colspan="5">
 					<div class="ui right floated pagination menu">
 						<a class="icon item" href="#">
@@ -67,7 +141,7 @@
 						</a>
 					</div>
 				</th>
-			</tr>
+			</tr> -->
 		</tfoot>
 	</table>
 </div>
