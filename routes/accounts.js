@@ -6,12 +6,27 @@ const { isLoggedIn, checkAccountOwnership } = middleware;
 
 // INDEX ROUTE
 router.get("/", isLoggedIn, function(req, res) {
-	Account.find({}, function(err, accounts) {
+	var perPage = 10;
+	var pageQuery = parseInt(req.query.page);
+	var pageNumber = pageQuery ? pageQuery : 1;
+	Account.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allAccounts) {
 		if(err) {
-			req.flash("error", "An error occurred while loading the accounts.");
+			req.flash("error", "An error occurred while retrieving the accounts from the database.");
 			res.redirect("/");
 		} else {
-			res.render("accounts/index", { accounts: accounts, page: "home" });
+			Account.count().exec(function(err, count) {
+				if(err) {
+					req.flash("error", "An error occurred while retrieving the number of accounts stored in the database.");
+					res.redirect("/");
+				} else {
+					res.render("accounts/index", {
+						accounts: allAccounts,
+						current: pageNumber,
+						pages: Math.ceil(count / perPage),
+						page: "home"
+					});
+				}
+			});
 		}
 	});
 });
