@@ -17,7 +17,10 @@
 		</h2>
 		<!-- ACCOUNT SETTINGS -->
 		<div class="ui secondary menu">
+			<!-- Last modified date -->
+			<span class="left floated item">Last modified <%= moment(account.lastModified).fromNow() %></span>
 			<div class="right menu">
+				<!-- Created at date -->
 				<span class="right floated item">Added by <%= account.author.username %> <%= moment(account.createdAt).fromNow() %></span>
 				<% if(currentUser && (account.author.id.equals(currentUser._id) || currentUser.isAdmin)) { %>
 					<!-- Edit -->
@@ -196,8 +199,6 @@
 </div>
 
 <script type="text/javascript" src="/scripts/show.js"></script>
-
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".ui.accordion").accordion();

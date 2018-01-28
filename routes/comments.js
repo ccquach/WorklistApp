@@ -38,6 +38,7 @@ router.post("/", isLoggedIn, function(req, res) {
 					comment.save();
 					// Connect new comment to account
 					account.comments.push(comment._id);
+					account.lastModified = Date.now();
 					account.save();
 					// Redirect to account show page
 					req.flash("success", "Successfully added new comment.");
