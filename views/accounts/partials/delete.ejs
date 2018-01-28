@@ -1,0 +1,22 @@
+<div class="ui small basic modal">
+	<div class="ui icon header">
+		<i class="trash link icon"></i>
+		Delete Confirmation
+	</div>
+	<div class="content">
+		<p>Are you sure you want to delete this?</p>
+	</div>
+	<div class="actions">
+		<div class="ui red basic cancel inverted button">
+			<i class="remove icon"></i>
+			No
+		</div>
+		<!-- Delete form -->
+		<div class="ui green ok inverted button">
+			<i class="checkmark icon"></i>
+			Yes
+			<form action="<%= deleteRoute %>?_method=DELETE" method="POST">
+			</form>
+		</div>
+	</div>
+</div>
