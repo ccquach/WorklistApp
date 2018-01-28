@@ -36,22 +36,24 @@
 				<th class="two wide">Account #</th>
 				<th class="six wide">Patient Name</th>
 				<th class="four wide">Current Balance</th>
-				<th class="four wide">Date Added</th>
+				<th class="two wide">Date Added</th>
+				<th class="two wide">Last Modified</th>
 			</tr>
 		</thead>
 		<tbody>
 			<% accounts.forEach(function(account) { %>
-				<tr>
-					<td><a href="/accounts/<%= account._id %>"><%= account.number %></a></td>
+				<tr class="clickable-row" data-href="/accounts/<%= account._id %>">
+					<td><%= account.number %></td>
 					<td><%= account.lastName %>, <%= account.firstName %></td>
 					<td>$<%= account.currentBalance.toFixed(2) %></td>
 					<td><%= moment(account.createdAt).format("M/D/YYYY") %></td>
+					<td><%= moment(account.lastModified).format("M/D/YYYY") %></td>
 				</tr>
 			<% }) %>
 		</tbody>
 		<tfoot>
 			<tr>
-				<th colspan="4">
+				<th colspan="5">
 					<div class="ui right floated pagination menu">
 						<a class="icon item" href="#">
 							<i class="left chevron icon"></i>
@@ -69,5 +71,13 @@
 		</tfoot>
 	</table>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(".clickable-row").on("click", function() {
+			window.location.href = $(this).data("href");
+		});
+	})
+</script>
 
 <% include ../partials/footer %>
