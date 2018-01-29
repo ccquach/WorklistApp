@@ -14,14 +14,21 @@ router.get("/", isLoggedIn, function(req, res) {
 	// sorting
 	var sortType = req.query.type;
 	var sortDirection = parseInt(req.query.direction);
-	var sortObject = sortType && sortDirection ? [[ sortType, sortDirection ]] : [[ "lastModified", 1 ]];
+	var sortObj = sortType && sortDirection ? [[ sortType, sortDirection ]] : [[ "lastModified", 1 ]];
 
-	Account.find({}).sort(sortObject).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allAccounts) {
+	if(req.query.search) {
+		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+		var findObj = { lastName: regex };
+	} else {
+		var findObj = {};
+	}
+
+	Account.find(findObj).sort(sortObj).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allAccounts) {
 		if(err) {
 			req.flash("error", "An error occurred while retrieving the accounts from the database.");
 			res.redirect("/");
 		} else {
-			Account.count().exec(function(err, count) {
+			Account.find(findObj).count().exec(function(err, count) {
 				if(err) {
 					req.flash("error", "An error occurred while retrieving the number of accounts stored in the database.");
 					res.redirect("/");
@@ -30,7 +37,8 @@ router.get("/", isLoggedIn, function(req, res) {
 						accounts: allAccounts,
 						current: pageNumber,
 						pages: Math.ceil(count / perPage),
-						sort: sortObject,
+						sort: sortObj,
+						search: req.query.search,
 						page: "home"
 					});
 				}
@@ -111,5 +119,9 @@ router.delete("/:id", isLoggedIn, checkAccountOwnership, function(req, res) {
 		}
 	});
 });
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
 module.exports = router;

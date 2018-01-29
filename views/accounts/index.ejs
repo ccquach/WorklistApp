@@ -19,132 +19,141 @@
 			<!-- SEARCH BAR -->
 			<div class="right menu">
 				<div class="ui item">
-					<div class="ui icon input">
-						<input class="prompt" type="text" name="" placeholder="Search Account...">
-						<i class="search link icon"></i>
-					</div>
-					<div class="results"></div>
+					<form action="/accounts" method="GET">
+						<div class="ui icon input">
+							<input class="prompt" type="text" name="search" placeholder="Search Last Name...">
+							<i class="search link icon"></i>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- TABLE -->
-	<table class="ui fixed single line selectable sortable celled green table">
-		<thead>
-			<tr>
-				<th class="two wide clickable-row" 
-					data-href="/accounts?type=number&direction=<%= sort[0][1] == 1 ? -1 : 1 %>">
-					Account #
-				</th>
-				<th class="six wide clickable-row"
-					data-href="/accounts?type=lastName&direction=<%= sort[0][1] == 1 ? -1 : 1 %>">
-					Patient Name
-				</th>
-				<th class="four wide clickable-row"
-					data-href="/accounts?type=currentBalance&direction=<%= sort[0][1] == 1 ? -1 : 1 %>">
-					Current Balance
-				</th>
-				<th class="two wide clickable-row"
-					data-href="/accounts?type=createdAt&direction=<%= sort[0][1] == 1 ? -1 : 1 %>">
-					Date Added
-				</th>
-				<th class="two wide clickable-row"
-					data-href="/accounts?type=lastModified&direction=<%= sort[0][1] == 1 ? -1 : 1 %>">
-					Last Modified
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% accounts.forEach(function(account) { %>
-				<tr class="clickable-row" data-href="/accounts/<%= account._id %>">
-					<td><%= account.number %></td>
-					<td><%= account.lastName %>, <%= account.firstName %></td>
-					<td>$<%= account.currentBalance.toFixed(2) %></td>
-					<td><%= moment(account.createdAt).format("M/D/YYYY") %></td>
-					<td><%= moment(account.lastModified).format("M/D/YYYY") %></td>
-				</tr>
-			<% }) %>
-		</tbody>
-		<tfoot>
-			<!-- Pagination -->
-			<% if (pages && pages > 0) { %>
+	<% if (pages === 0) { %>
+		<!-- Display message if query returns no accounts -->
+		<div class="ui yellow message">
+			<p><em>No accounts found.</em></p>
+		</div>
+	<% } else { %>
+		<!-- Otherwise, display table -->
+		<table class="ui fixed single line selectable sortable celled green table">
+			<thead>
 				<tr>
-					<th colspan="5">
-						<div class="ui centered grid">
-							<div class="center aligned column">
-								<div class="ui pagination menu">
-									<!-- First -->
-									<% if (current == 1) { %>
-										<a class="icon item">
-											<i class="large angle double left icon"></i>
-										</a>
-									<% } else { %>
-										<a class="icon item" href="/accounts?type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>">
-											<i class="large angle double left icon"></i>
-										</a>
-									<% } %>
-
-									<!-- Left Chevron -->
-									<% if (current == 1) { %>
-										<a class="icon item">
-											<i class="left chevron icon"></i>
-										</a>
-									<% } else { %>
-										<a class="icon item" href="/accounts?page=<%= Number(current) - 1 %>&type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>">
-											<i class="left chevron icon"></i>
-										</a>
-									<% } %>
-
-									<!-- Left Continued -->
-									<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-									<% if (i !== 1) { %>
-										<a class="item">...</a>
-									<% } %>
-
-									<% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-										<!-- Pages -->
-										<% if (i == current) { %>
-											<a class="active item"><%= i %></a>
-										<% } else { %>
-											<a class="item" href="/accounts?page=<%= i %>&type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>"><%= i %></a>
-										<% } %>
-
-										<!-- Right Continued -->
-										<% if (i === Number(current) + 4 && i < pages) { %>
-											<a class="item">...</a>
-										<% } %>
-									<% } %>
-
-									<!-- Right Chevron -->
-									<% if (current == pages) { %>
-										<a class="icon item">
-											<i class="right chevron icon"></i>
-										</a>
-									<% } else { %>
-										<a class="icon item" href="/accounts?page=<%= Number(current) + 1 %>&type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>">
-											<i class="right chevron icon"></i>
-										</a>
-									<% } %>
-
-									<!-- Last -->
-									<% if (current == pages) { %>
-										<a class="icon item">
-											<i class="large angle double right icon"></i>
-										</a>
-									<% } else { %>
-										<a class="icon item" href="/accounts?page=<%= pages %>&type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>">
-											<i class="large angle double right icon"></i>
-										</a>
-									<% } %>
-								</div>
-							</div>
-						</div>
+					<th class="two wide clickable-row" 
+						data-href="/accounts?type=number&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+						Account #
+					</th>
+					<th class="six wide clickable-row"
+						data-href="/accounts?type=lastName&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+						Patient Name
+					</th>
+					<th class="four wide clickable-row"
+						data-href="/accounts?type=currentBalance&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+						Current Balance
+					</th>
+					<th class="two wide clickable-row"
+						data-href="/accounts?type=createdAt&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+						Date Added
+					</th>
+					<th class="two wide clickable-row"
+						data-href="/accounts?type=lastModified&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+						Last Modified
 					</th>
 				</tr>
-			<% } %>
-		</tfoot>
-	</table>
+			</thead>
+			<tbody>
+				<% accounts.forEach(function(account) { %>
+					<tr class="clickable-row" data-href="/accounts/<%= account._id %>">
+						<td><%= account.number %></td>
+						<td><%= account.lastName %>, <%= account.firstName %></td>
+						<td>$<%= account.currentBalance.toFixed(2) %></td>
+						<td><%= moment(account.createdAt).format("M/D/YYYY") %></td>
+						<td><%= moment(account.lastModified).format("M/D/YYYY") %></td>
+					</tr>
+				<% }) %>
+			</tbody>
+			<tfoot>
+				<!-- Pagination -->
+				<% if (pages && pages > 0) { %>
+					<tr>
+						<th colspan="5">
+							<div class="ui centered grid">
+								<div class="center aligned column">
+									<div class="ui pagination menu">
+										<!-- First -->
+										<% if (current == 1) { %>
+											<a class="icon item">
+												<i class="large angle double left icon"></i>
+											</a>
+										<% } else { %>
+											<a class="icon item" href="/accounts?type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>&search=<%= search %>">
+												<i class="large angle double left icon"></i>
+											</a>
+										<% } %>
+
+										<!-- Left Chevron -->
+										<% if (current == 1) { %>
+											<a class="icon item">
+												<i class="left chevron icon"></i>
+											</a>
+										<% } else { %>
+											<a class="icon item" href="/accounts?page=<%= Number(current) - 1 %>&type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>&search=<%= search %>">
+												<i class="left chevron icon"></i>
+											</a>
+										<% } %>
+
+										<!-- Left Continued -->
+										<% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+										<% if (i !== 1) { %>
+											<a class="item">...</a>
+										<% } %>
+
+										<% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+											<!-- Pages -->
+											<% if (i == current) { %>
+												<a class="active item"><%= i %></a>
+											<% } else { %>
+												<a class="item" href="/accounts?page=<%= i %>&type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>&search=<%= search %>"><%= i %></a>
+											<% } %>
+
+											<!-- Right Continued -->
+											<% if (i === Number(current) + 4 && i < pages) { %>
+												<a class="item">...</a>
+											<% } %>
+										<% } %>
+
+										<!-- Right Chevron -->
+										<% if (current == pages) { %>
+											<a class="icon item">
+												<i class="right chevron icon"></i>
+											</a>
+										<% } else { %>
+											<a class="icon item" href="/accounts?page=<%= Number(current) + 1 %>&type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>&search=<%= search %>">
+												<i class="right chevron icon"></i>
+											</a>
+										<% } %>
+
+										<!-- Last -->
+										<% if (current == pages) { %>
+											<a class="icon item">
+												<i class="large angle double right icon"></i>
+											</a>
+										<% } else { %>
+											<a class="icon item" href="/accounts?page=<%= pages %>&type=<%= sort[0][0] %>&direction=<%= sort[0][1] %>&search=<%= search %>">
+												<i class="large angle double right icon"></i>
+											</a>
+										<% } %>
+									</div>
+								</div>
+							</div>
+						</th>
+					</tr>
+				<% } %>
+			</tfoot>
+		</table>
+	<% } %>
 </div>
 
 <script type="text/javascript">
