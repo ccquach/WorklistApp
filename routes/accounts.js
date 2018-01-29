@@ -6,10 +6,17 @@ const { isLoggedIn, checkAccountOwnership } = middleware;
 
 // INDEX ROUTE
 router.get("/", isLoggedIn, function(req, res) {
+	// pagination
 	var perPage = 10;
 	var pageQuery = parseInt(req.query.page);
 	var pageNumber = pageQuery ? pageQuery : 1;
-	Account.find({}).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allAccounts) {
+
+	// sorting
+	var sortType = req.query.type;
+	var sortDirection = parseInt(req.query.direction);
+	var sortObject = sortType && sortDirection ? [[ sortType, sortDirection ]] : [[ "lastModified", 1 ]];
+
+	Account.find({}).sort(sortObject).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allAccounts) {
 		if(err) {
 			req.flash("error", "An error occurred while retrieving the accounts from the database.");
 			res.redirect("/");
@@ -23,6 +30,7 @@ router.get("/", isLoggedIn, function(req, res) {
 						accounts: allAccounts,
 						current: pageNumber,
 						pages: Math.ceil(count / perPage),
+						sort: sortObject,
 						page: "home"
 					});
 				}
