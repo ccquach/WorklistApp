@@ -35,12 +35,25 @@
 			
 			<div class="field">
 				<label>Permissions</label>
-				<input type="text" name="adminCode" placeholder="Admin code">
+				<div class="ui icon input">
+					<input id="adminPwd" type="password" name="adminCode" placeholder="Admin code">
+					<i class="unhide link icon"></i>
+				</div>
 			</div>
 		</div>
 		
 		<button class="ui blue button">Submit</button>
 	</form>
 </div>
+
+<script type="text/javascript">
+	var adminPwd = $("#adminPwd");
+	$(".unhide.link.icon").on("mousedown", function() {
+		adminPwd.attr("type", "text");
+	});
+	$(".unhide.link.icon").on("mouseup", function() {
+		adminPwd.attr("type", "password");
+	});
+</script>
 
 <% include ./partials/footer %>
