@@ -53,7 +53,8 @@ app.use(function(req, res, next) {
 	res.locals = {
 		currentUser: req.user,
 		success: req.flash("success"),
-		error: req.flash("error")
+		error: req.flash("error"),
+		info: req.flash("info")
 	};
 	next();
 });

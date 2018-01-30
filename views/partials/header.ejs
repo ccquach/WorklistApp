@@ -45,3 +45,10 @@
 				</div>
 			</div>
 		<% } %>
+		<% if(info && info.length > 0) { %>
+			<div class="flash-message container">
+				<div class="ui visible info message">
+					<%= info %>
+				</div>
+			</div>
+		<% } %>
