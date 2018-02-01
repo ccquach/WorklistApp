@@ -1,6 +1,4 @@
 <% include ../partials/header %>
-<link rel="stylesheet" type="text/css" href="/stylesheets/show.css">
-<link rel="stylesheet" type="text/css" href="/stylesheets/lib/jquery.pagepiling.min.css">
 
 <div class="ui grid main container">
 	<!-- HEADER -->
@@ -114,54 +112,56 @@
 		</div>
 
 		<!-- Commercial -->
-		<table id="commercial-section" class="ui green selectable definition table">
-			<tbody>
-				<tr>
-					<td class="four wide column">Financial Class</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Payer</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Insured Id</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Eligibility</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Status</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Billed Date</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Expected Reimbursement</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Payment Date</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Payment Amount</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Patient Liability (Copay/Deduct./Coins.)</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>Payment Variance</td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
+		<div id="commercial-section">
+			<table class="ui green selectable definition table">
+				<tbody>
+					<tr>
+						<td class="four wide column">Financial Class</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Payer</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Insured Id</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Eligibility</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Status</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Billed Date</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Expected Reimbursement</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Payment Date</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Payment Amount</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Patient Liability (Copay/Deduct./Coins.)</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Payment Variance</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 
 		<!-- Medi-Cal -->
 		<div id="medical-section">
@@ -340,13 +340,12 @@
 
 		<!-- Communication Log -->
 		<div id="log-section">
-			
+			<p><em>No follow-ups yet.</em></p>
 		</div>
 	</div>
 </div>
 
 <script type="text/javascript" src="/scripts/show.js"></script>
-<script type="text/javascript" src="/scripts/lib/jquery.pagepiling.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".ui.accordion").accordion();
