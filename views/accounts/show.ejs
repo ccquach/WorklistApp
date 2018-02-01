@@ -1,27 +1,25 @@
 <% include ../partials/header %>
+<link rel="stylesheet" type="text/css" href="/stylesheets/show.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/lib/jquery.pagepiling.min.css">
 
 <div class="ui grid main container">
-	<div class="three wide field column">
-		<div class="ui secondary vertical menu">
-			<!-- PAGE NAVIGATION -->
-			<a onclick="setActiveItem()" class="item active" href="#">Patient Info</a>
-			<a onclick="setActiveItem()" class="item" href="#">Insurance</a>
-			<a onclick="setActiveItem()" class="item" href="#comments">Comments</a>
-		</div>
-	</div>
-
-	<div class="thirteen wide field column">
-		<!-- HEADER -->
+	<!-- HEADER -->
+	<div class="sixteen wide field column">
+		<!-- HEADER ICON -->
 		<h2 class="ui center aligned icon header">
 			<i class="circular id card outline icon"></i>
 		</h2>
 		<!-- ACCOUNT SETTINGS -->
 		<div class="ui secondary menu">
 			<!-- Last modified date -->
-			<span class="left floated item">Last modified <%= moment(account.lastModified).fromNow() %></span>
+			<span class="left floated item">
+				<em>Last modified <%= moment(account.lastModified).fromNow() %></em>
+			</span>
 			<div class="right menu">
 				<!-- Created at date -->
-				<span class="right floated item">Added by <%= account.author.username %> <%= moment(account.createdAt).fromNow() %></span>
+				<span class="right floated item">
+					<em>Added by <%= account.author.username %> <%= moment(account.createdAt).fromNow() %></em>
+				</span>
 				<% if(currentUser && (account.author.id.equals(currentUser._id) || currentUser.isAdmin)) { %>
 					<!-- Edit -->
 					<div class="item">
@@ -42,163 +40,313 @@
 				<% } %>
 			</div>
 		</div>
-		
-		<!-- Patient Details -->
-		<table class="ui definition table">
+	</div>
+
+	<!-- NAVIGATION -->
+	<div class="sixteen wide field column">
+		<div class="ui secondary pointing menu">
+			<a class="item active">Patient</a>
+			<a class="item">Commercial</a>
+			<a class="item">Medi-cal</a>
+			<a class="item">Communication Log</a>
+		</div>
+	</div>
+	
+	<!-- CONTENT -->
+	<div class="sixteen wide field column">
+		<!-- Patient -->
+		<div id="patient-section">
+			<div class="ui dividing header">
+				<p>Patient Details</p>
+			</div>
+			<table class="ui green selectable definition table">
+				<tbody>
+					<tr>
+						<td class="four wide column">Account #</td>
+						<td><%= account.number %></td>
+					</tr>
+					<tr>
+						<td>Patient Name</td>
+						<td><%= account.lastName %>, <%= account.firstName %></td>
+					</tr>
+					<tr>
+						<td>DOB</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Admit</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Discharge</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Total Charges</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>AR Balance</td>
+						<td>$<%= account.currentBalance.toFixed(2) %></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="ui dividing header">
+				<p>Account Status</p>
+			</div>
+			<table class="ui green selectable definition table">
+				<tbody>
+					<tr>
+						<td class="four wide column">Account Type</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Account Status</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Follow-up Date</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<!-- Commercial -->
+		<table id="commercial-section" class="ui green selectable definition table">
 			<tbody>
 				<tr>
-					<td class="four wide column">Account #</td>
-					<td><%= account.number %></td>
+					<td class="four wide column">Financial Class</td>
+					<td></td>
 				</tr>
 				<tr>
-					<td>Patient Name</td>
-					<td><%= account.lastName %>, <%= account.firstName %></td>
+					<td>Payer</td>
+					<td></td>
 				</tr>
 				<tr>
-					<td>Current Balance</td>
-					<td>$<%= account.currentBalance.toFixed(2) %></td>
+					<td>Insured Id</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Eligibility</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Status</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Billed Date</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Expected Reimbursement</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Payment Date</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Payment Amount</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Patient Liability (Copay/Deduct./Coins.)</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>Payment Variance</td>
+					<td></td>
 				</tr>
 			</tbody>
 		</table>
-	
-		<!-- Comments Section START -->
-		<div id="comments" class="ui segment">
-			<div class="ui grid">
-				<!-- Add New Comment START -->
-				<div class="sixteen wide column">
-					<div class="ui fluid accordion">
-						<!-- ACCORDION TOGGLE -->
-						<div class="title">
-							<div class="ui two column grid">
-								<div class="column">
-									<!-- Comments section title -->
-									<h3 class="ui header">
-										<i class="comment outline icon"></i>
-										Comments
-									</h3>
+
+		<!-- Medi-Cal -->
+		<div id="medical-section">
+			<table class="ui green selectable definition table">
+				<tbody>
+					<tr>
+						<td class="four wide column">AR Trans Number</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Retraction RA Date</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Recoupment Amount</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Need CIF?</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>CIF Amount</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>Cycle #</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>HMS Issue Date</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>HMS Close Date</td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+		
+			<!-- Comments Section START -->
+			<div id="comments" class="ui segment">
+				<div class="ui grid">
+					<!-- Add New Comment START -->
+					<div class="sixteen wide column">
+						<div class="ui fluid accordion">
+							<!-- ACCORDION TOGGLE -->
+							<div class="title">
+								<div class="ui two column grid">
+									<div class="column">
+										<!-- Comments section title -->
+										<h3 class="ui header">
+											<i class="comment outline icon"></i>
+											Comments
+										</h3>
+									</div>
+									<!-- Add new comment button toggles collapsible comment box -->
+									<div class="column">
+										<button class="ui right floated labeled green icon button">
+											<i class="plus inverted icon"></i>
+											Add Comment
+										</button>
+									</div>
 								</div>
-								<!-- Add new comment button toggles collapsible comment box -->
-								<div class="column">
-									<button class="ui right floated labeled green icon button">
-										<i class="plus inverted icon"></i>
-										Add Comment
-									</button>
+							</div>
+							<!-- COLLAPSIBLE COMMENT BOX -->
+							<div class="content">
+								<div id="new-comment" class="ui segment">
+									<h4>
+										Write your comment
+										<i class="write icon"></i>
+									</h4>
+									<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments" method="POST">
+										<div class="field">
+											<input type="text" value="<%= currentUser.username %>" disabled>
+										</div>
+										<div class="field">
+											<textarea autofocus name="comment[content]" placeholder="Write your comment..." required></textarea>
+										</div>
+										<button class="ui labeled icon button">
+											<i class="comment outline icon"></i>
+											Submit  
+										</button>
+									</form>
 								</div>
 							</div>
 						</div>
-						<!-- COLLAPSIBLE COMMENT BOX -->
-						<div class="content">
-							<div id="new-comment" class="ui segment">
-								<h4>
-									Write your comment
-									<i class="write icon"></i>
-								</h4>
-								<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments" method="POST">
-									<div class="field">
-										<input type="text" value="<%= currentUser.username %>" disabled>
-									</div>
-									<div class="field">
-										<textarea autofocus name="comment[content]" placeholder="Write your comment..." required></textarea>
-									</div>
-									<button class="ui labeled icon button">
-										<i class="comment outline icon"></i>
-										Submit  
-									</button>
-								</form>
-							</div>
-						</div>
+						<!-- Add New Comment END -->
+					<div class="ui divider"></div>
 					</div>
-					<!-- Add New Comment END -->
-				<div class="ui divider"></div>
-				</div>
 
-				<!-- Display Comments START -->
-				<div class="sixteen wide column">
-					<!-- Display message if no comments exist -->
-					<% if(account.comments.length === 0) { %>
-						<p><em>No comments yet.</em></p>
-					<% } %>
+					<!-- Display Comments START -->
+					<div class="sixteen wide column">
+						<!-- Display message if no comments exist -->
+						<% if(account.comments.length === 0) { %>
+							<p><em>No comments yet.</em></p>
+						<% } %>
 
-					<!-- Loop through comments -->
-					<div class="ui comments">
-						<% account.comments.forEach(function(comment) { %>
-							<div class="comment">
-								<div class="content">
-									<div class="ui fluid grid">
-										<% if(currentUser && currentUser.isAdmin) { %>
-											<div class="thirteen wide column">
-										<% } else { %>
-											<div class="sixteen wide column">
-										<% } %>
-											<!-- author -->
-											<span class="author"><%= comment.author.username %></span>
-											<!-- created at -->
-											<div class="metadata">
-												<span class="date"><%= moment(comment.createdAt).fromNow() %></span>
-											</div>
-											<!-- content -->
-											<div class="text">
-												<p><%= comment.content %></p>
-											</div>
-											<!-- edit button -->
+						<!-- Loop through comments -->
+						<div class="ui comments">
+							<% account.comments.forEach(function(comment) { %>
+								<div class="comment">
+									<div class="content">
+										<div class="ui fluid grid">
 											<% if(currentUser && currentUser.isAdmin) { %>
-												<div class="actions">
-													<!-- collapsible edit form -->
-													<div class="ui fluid accordion">
-														<div class="title">
-															<a>Edit</a>
-														</div>
-														<div class="content">
-															<div id="edit-comment" class="ui segment">
-																<h4>
-																	Edit Comment
-																	<i class="edit icon"></i>
-																</h4>
-																<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
-																	<div class="field">
-																		<input type="text" value="<%= comment.author.username %>" disabled>
-																	</div>
-																	<div class="field">
-																		<textarea autofocus name="comment[content]" placeholder="Your comment text..." required><%= comment.content %></textarea>
-																	</div>
-																	<button class="ui labeled icon button">
-																		<i class="comment outline icon"></i>
-																		Update  
-																	</button>
-																</form>
+												<div class="thirteen wide column">
+											<% } else { %>
+												<div class="sixteen wide column">
+											<% } %>
+												<!-- author -->
+												<span class="author"><%= comment.author.username %></span>
+												<!-- created at -->
+												<div class="metadata">
+													<span class="date"><%= moment(comment.createdAt).fromNow() %></span>
+												</div>
+												<!-- content -->
+												<div class="text">
+													<p><%= comment.content %></p>
+												</div>
+												<!-- edit button -->
+												<% if(currentUser && currentUser.isAdmin) { %>
+													<div class="actions">
+														<!-- collapsible edit form -->
+														<div class="ui fluid accordion">
+															<div class="title">
+																<a>Edit</a>
+															</div>
+															<div class="content">
+																<div id="edit-comment" class="ui segment">
+																	<h4>
+																		Edit Comment
+																		<i class="edit icon"></i>
+																	</h4>
+																	<form class="ui form transition visible" action="/accounts/<%= account._id %>/comments/<%= comment._id %>?_method=PUT" method="POST">
+																		<div class="field">
+																			<input type="text" value="<%= comment.author.username %>" disabled>
+																		</div>
+																		<div class="field">
+																			<textarea autofocus name="comment[content]" placeholder="Your comment text..." required><%= comment.content %></textarea>
+																		</div>
+																		<button class="ui labeled icon button">
+																			<i class="comment outline icon"></i>
+																			Update  
+																		</button>
+																	</form>
+																</div>
 															</div>
 														</div>
 													</div>
-												</div>
-											<% } %>
-										</div>
-										<!-- delete button -->
-										<div class="three wide column">
-											<% if(currentUser && currentUser.isAdmin) { %>
-												<!-- Delete Comment modal toggle -->
-												<button class="ui mini right floated negative labeled icon button delete delete-modal">
-													<i class="trash outline icon"></i>
-													Delete
-												</button>
-												<!-- Delete Comment Confirmation modal -->
-												<% var deleteRoute = "/accounts/" + account._id + "/comments/" + comment._id %>
-												<% include ./partials/delete %>
-											<% } %>
-										</div>
-									</div>  <!-- comment fluid grid -->
-								</div>  <!-- comment content -->
-							</div>  <!-- comment -->
-						<% }) %>  <!-- comments for each -->
-					</div>  <!-- ui comments -->
+												<% } %>
+											</div>
+											<!-- delete button -->
+											<div class="three wide column">
+												<% if(currentUser && currentUser.isAdmin) { %>
+													<!-- Delete Comment modal toggle -->
+													<button class="ui mini right floated negative labeled icon button delete delete-modal">
+														<i class="trash outline icon"></i>
+														Delete
+													</button>
+													<!-- Delete Comment Confirmation modal -->
+													<% var deleteRoute = "/accounts/" + account._id + "/comments/" + comment._id %>
+													<% include ./partials/delete %>
+												<% } %>
+											</div>
+										</div>  <!-- comment fluid grid -->
+									</div>  <!-- comment content -->
+								</div>  <!-- comment -->
+							<% }) %>  <!-- comments for each -->
+						</div>  <!-- ui comments -->
+					</div>
+					<!-- Display Comments END -->
 				</div>
-				<!-- Display Comments END -->
 			</div>
-		</div>
 		<!-- Comments Section END -->
+		</div>
+
+		<!-- Communication Log -->
+		<div id="log-section">
+			
+		</div>
 	</div>
 </div>
 
 <script type="text/javascript" src="/scripts/show.js"></script>
+<script type="text/javascript" src="/scripts/lib/jquery.pagepiling.min.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$(".ui.accordion").accordion();
