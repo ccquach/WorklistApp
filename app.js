@@ -15,7 +15,8 @@ var expressSanitizer 	= require("express-sanitizer"),
 // MONGOOSE MODELS
 var Account 			= require("./models/account"),
 	Comment 			= require("./models/comment"),
-	User 				= require("./models/user");
+	User 				= require("./models/user"),
+	Log 				= require("./models/log");
 
 // CONFIGURE DOTENV
 require("dotenv").config();
@@ -23,7 +24,8 @@ require("dotenv").config();
 // REQUIRING ROUTES
 var indexRoutes 		= require("./routes/index"),
 	accountRoutes 		= require("./routes/accounts"),
-	commentRoutes 		= require("./routes/comments");
+	commentRoutes 		= require("./routes/comments"),
+	logRoutes			= require("./routes/logs");
 
 // APP CONFIGURATION
 mongoose.connect("mongodb://127.0.0.1/worklist_app");
@@ -54,7 +56,8 @@ app.use(function(req, res, next) {
 		currentUser: req.user,
 		success: req.flash("success"),
 		error: req.flash("error"),
-		info: req.flash("info")
+		info: req.flash("info"),
+		prevData: req.flash("prevData")
 	};
 	next();
 });
@@ -63,6 +66,7 @@ app.use(function(req, res, next) {
 app.use(indexRoutes);
 app.use("/accounts", accountRoutes);
 app.use("/accounts/:id/comments", commentRoutes);
+app.use("/accounts/:id/logs", logRoutes);
 
 app.listen(3000, function() {
 	console.log("Serving Worklist Application on port 3000");

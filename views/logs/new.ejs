@@ -1,0 +1,38 @@
+<% include ../partials/header %>
+
+<div class="ui main text segment container">
+	<div class="ui huge header">New Follow-Up</div>
+	<form class="ui form" action="/accounts/<%= account._id %>/logs" method="POST">
+		<div class="field">
+			<label>Account #</label>
+			<input type="text" name="account[number]" value="<%= account.number %>" disabled>
+		</div>
+		<div class="field">
+			<label>Payer</label>
+			<input type="text" name="log[payer][name]" placeholder="Blue Shield" required autofocus>
+		</div>
+		<div class="field">
+			<label>Phone Number</label>
+			<input type="text" name="log[payer][phone]" placeholder="(xxx) xxx-xxxx" required>
+		</div>
+		<div class="field">
+			<label>Reference #</label>
+			<input type="text" name="log[payer][ref]" placeholder="###########" required>
+		</div>
+		<div class="field">
+			<label>Representative</label>
+			<input type="text" name="log[payer][rep]" placeholder="John Doe" required>
+		</div>
+		<div class="field">
+			<label>Status</label>
+			<input type="text" name="log[status]" placeholder="Claim in process" required>
+		</div>
+		<div class="field">
+			<label>Additional Notes</label>
+			<textarea name="log[note]" placeholder="Write notes here..."></textarea>
+		</div>
+		<input  class="ui button" type="submit">
+	</form>
+</div>
+
+<% include ../partials/footer %>

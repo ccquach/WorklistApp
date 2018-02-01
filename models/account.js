@@ -42,7 +42,7 @@ var accountSchema = new mongoose.Schema({
 			ref: "Comment"
 		}
 	],
-	log: [
+	logs: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Log"
