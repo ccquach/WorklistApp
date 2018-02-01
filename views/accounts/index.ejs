@@ -68,7 +68,7 @@
 					<tr class="clickable-row" data-href="/accounts/<%= account._id %>">
 						<td><%= account.number %></td>
 						<td><%= account.lastName %>, <%= account.firstName %></td>
-						<td>$<%= account.currentBalance.toFixed(2) %></td>
+						<td>$<%= parseFloat(account.balance).toFixed(2) %></td>
 						<td><%= moment(account.createdAt).format("M/D/YYYY") %></td>
 						<td><%= moment(account.lastModified).format("M/D/YYYY") %></td>
 					</tr>
