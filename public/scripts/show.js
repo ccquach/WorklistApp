@@ -1,4 +1,14 @@
 $(document).ready(function() {
+	// collapsible comment box
+	$(".ui.accordion").accordion();
+
+	// delete confirmation
+	$(".ui.modal").modal("attach events", ".delete-modal", "show");
+	$(".ok.button").on("click", function() {
+		$(this).find("form").submit();
+	});
+
+	// section navigation
 	$("#commercial-section").hide();
 	$("#medical-section").hide();
 	$("#log-section").hide();

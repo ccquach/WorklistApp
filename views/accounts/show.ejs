@@ -346,15 +346,4 @@
 </div>
 
 <script type="text/javascript" src="/scripts/show.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$(".ui.accordion").accordion();
-		$(".ui.modal").modal("attach events", ".delete-modal", "show");
-
-		$(".ok.button").on("click", function() {
-			$(this).find("form").submit();
-		});
-	});
-</script>
-
 <% include ../partials/footer %>
