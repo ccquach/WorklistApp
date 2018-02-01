@@ -22,7 +22,8 @@ router.post("/", isLoggedIn, function(req, res) {
 	req.body.comment.content = req.sanitize(req.body.comment.content);
 	// Find account by Id
 	Account.findById(req.params.id, function(err, account) {
-		if(err) {
+		if(err || !account) {
+			req.flash("error", "Unable to find account.");
 			res.back();
 		} else {
 			// Create new comment
