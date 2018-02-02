@@ -3,7 +3,7 @@ var router = express.Router({ mergeParams: true });
 var Account = require("../models/account");
 var Log = require("../models/log");
 var middleware = require("../middleware");
-const { isLoggedIn } = middleware;
+const { isLoggedIn, isAdmin, checkLogOwnership } = middleware;
 
 // new log entry
 router.get("/new", isLoggedIn, function(req, res) {
@@ -46,6 +46,36 @@ router.post("/", isLoggedIn, function(req, res) {
 			req.flash("success", "Successfully added new follow-up to communication log.");
 			res.redirect("/accounts/" + req.params.id);
 		});
+	});
+});
+
+// edit log entry
+router.get("/:log_id/edit", isLoggedIn, checkLogOwnership, function(req, res) {
+	Account.findById(req.params.id, function(err, foundAccount) {
+		if(err || !foundAccount) {
+			req.flash("error", "Unable to find account.");
+			return res.back();
+		}
+		Log.findById(req.params.log_id, function(err, foundLog) {
+			if(err || !foundAccount) {
+				req.flash("error", "Unable to find follow-up log entry.");
+				return res.back();
+			}
+			res.render("logs/edit", { account: foundAccount, log: foundLog });
+		});
+	});
+});
+
+// update log entry
+router.put("/:log_id", isLoggedIn, checkLogOwnership, function(req, res) {
+	req.body.log.note = req.sanitize(req.body.log.note);
+	Log.findByIdAndUpdate(req.params.log_id, req.body.log, function(err, updatedLog) {
+		if(err) {
+			req.flash("error", "Failed to update follow-up log entry.");
+			return res.back();
+		}
+		req.flash("success", "Successfully updated follow-up log entry!");
+		res.redirect("/accounts/" + req.params.id);
 	});
 });
 

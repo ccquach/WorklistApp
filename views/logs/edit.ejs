@@ -1,0 +1,39 @@
+<% include ../partials/header %>
+
+<div class="ui main text segment container">
+	<div class="ui huge header">Edit Follow-Up</div>
+	<form class="ui form" action="/accounts/<%= account._id %>/logs/<%= log._id %>?_method=PUT" method="POST">
+		<div class="field">
+			<label>Account #</label>
+			<input type="text" name="account[number]" value="<%= account.number %>" disabled>
+		</div>
+		<div class="field">
+			<label>Payer</label>
+			<input type="text" name="log[payer][name]" value="<%= log.payer.name %>" required autofocus>
+		</div>
+		<div class="field">
+			<label>Phone Number</label>
+			<input class="phone" type="text" name="log[payer][phone]" value="<%= log.payer.phone %>" required>
+		</div>
+		<div class="field">
+			<label>Reference #</label>
+			<input type="text" name="log[payer][ref]" value="<%= log.payer.ref %>" required>
+		</div>
+		<div class="field">
+			<label>Representative</label>
+			<input type="text" name="log[payer][rep]" value="<%= log.payer.rep %>" required>
+		</div>
+		<div class="field">
+			<label>Status</label>
+			<input type="text" name="log[status]" value="<%= log.status %>" required>
+		</div>
+		<div class="field">
+			<label>Additional Notes</label>
+			<textarea name="log[note]"><%= log.note %></textarea>
+		</div>
+		<input  class="ui button" type="submit">
+	</form>
+</div>
+
+<script type="text/javascript" src="/scripts/formatPhoneNumber.js"></script>
+<% include ../partials/footer %>

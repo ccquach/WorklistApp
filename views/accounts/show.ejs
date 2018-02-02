@@ -383,6 +383,10 @@
 								<%= moment(log.createdAt).format("YYYY-MM-DD") %> by <%= log.author.username %>
 							</div>
 							<div class=content>
+								<!-- Log edit / delete buttons -->
+								<% if(currentUser && log.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
+									<a class="ui mini yellow button" href="/accounts/<%= account._id %>/logs/<%= log._id %>/edit">Edit</a>
+								<% } %>
 								<table class="ui green definition table">
 									<tbody>
 										<tr>
