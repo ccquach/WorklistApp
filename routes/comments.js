@@ -51,7 +51,7 @@ router.post("/", isLoggedIn, function(req, res) {
 });
 
 // Comment edit
-router.get("/:comment_id/edit", isAdmin, function(req, res) {
+router.get("/:comment_id/edit", isLoggedIn, isAdmin, function(req, res) {
 	Account.findById(req.params.id, function(err, foundAccount) {
 		if(err || !foundAccount) {
 			req.flash("error", "Account not found.");
@@ -68,7 +68,7 @@ router.get("/:comment_id/edit", isAdmin, function(req, res) {
 });
 
 // Comment update
-router.put("/:comment_id", isAdmin, function(req, res) {
+router.put("/:comment_id", isLoggedIn, isAdmin, function(req, res) {
 	req.body.comment.content = req.sanitize(req.body.comment.content);
 	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
 		if(err) {
@@ -82,7 +82,7 @@ router.put("/:comment_id", isAdmin, function(req, res) {
 });
 
 // Comment destroy
-router.delete("/:comment_id", isAdmin, function(req, res) {
+router.delete("/:comment_id", isLoggedIn, isAdmin, function(req, res) {
 	// find account
 	Account.findByIdAndUpdate(req.params.id, {
 		// remove comment from comments array
