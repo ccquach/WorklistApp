@@ -409,6 +409,10 @@
 											<td>Note</td>
 											<td><%= log.note %></td>
 										</tr>
+										<tr>
+											<td>CPSI</td>
+											<td>CALLED <%= log.payer.name.toUpperCase() %> AT <%= log.payer.phone.toUpperCase() %>. SPK W/ <%= log.payer.rep.toUpperCase() %>, CALL REF# <%= log.payer.ref.toUpperCase() %>. PER REP, <%= log.note.toUpperCase() %>.</td>
+										</tr>
 									</tbody>
 								</table>
 							</div>		<!-- div.content -->
