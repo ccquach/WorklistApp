@@ -250,7 +250,7 @@
 							</div>
 						</div>
 						<!-- Add New Comment END -->
-					<div class="ui divider"></div>
+						<div class="ui divider"></div>
 					</div>
 
 					<!-- Display Comments START -->
@@ -339,11 +339,86 @@
 		</div>
 
 		<!-- Communication Log -->
-		<div id="log-section">
-			<p><em>No follow-ups yet.</em></p>
-		</div>
-	</div>
-</div>
+		<div id="log-section" class="ui segment">
+			<div class="ui two column grid">
+				<div class="column">
+					<!-- Follow-up section title -->
+					<h3 class="ui header">
+						<i class="call icon"></i>
+						Follow-ups
+					</h3>
+				</div>
+				<!-- Add new follow-up button -->
+				<div class="column">
+					<a href="/accounts/<%= account._id %>/logs/new" class="ui right floated labeled green icon button">
+						<i class="plus inverted icon"></i>
+						Add Follow-up
+					</a>
+				</div>
+			</div>
+			<div class="ui divider"></div>
+			<div class="ui grid">	
+				<div class="sixteen wide column">
+					<% if(account.logs.length === 0) { %>
+						<p><em>No follow-ups yet.</em></p>
+					<% } %>
+
+					<!-- sort log by descending createdAt date -->
+					<% var logs = account.logs.sort(function(a, b) { %>
+						<% var dateA = a.createdAt; %>
+						<% var dateB = b.createdAt; %>
+						<% if(dateA < dateB) { %>
+							<% return 1; %>
+						<% } %>
+						<% if(dateA > dateB) { %>
+							<% return -1; %>
+						<% } %>
+						<% return 0; %>
+					<% }); %>
+					<!-- display log -->
+					<div class="ui fluid accordion">
+						<% logs.forEach(function(log) { %>
+							<div class="title">
+								<i class="dropdown icon"></i>
+								<%= moment(log.createdAt).format("YYYY-MM-DD") %> by <%= log.author.username %>
+							</div>
+							<div class=content>
+								<table class="ui green definition table">
+									<tbody>
+										<tr>
+											<td class="two wide">Payer</td>
+											<td><%= log.payer.name %></td>
+										</tr>
+										<tr>
+											<td>Phone #</td>
+											<td><%= log.payer.phone %></td>
+										</tr>
+										<tr>
+											<td>Ref #</td>
+											<td><%= log.payer.ref %></td>
+										</tr>
+										<tr>
+											<td>Rep.</td>
+											<td><%= log.payer.rep %></td>
+										</tr>
+										<tr>
+											<td>Status</td>
+											<td><%= log.status %></td>
+										</tr>
+										<tr>
+											<td>Note</td>
+											<td><%= log.note %></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>		<!-- div.content -->
+						<% }) %>	<!-- forEach -->
+					</div>	<!-- .ui.accordion -->
+				</div>	<!-- .sixteen-wide-column -->
+			</div>	<!-- .ui.grid -->
+		</div>	<!-- #logSection END -->
+	</div>	<!-- CONTENT END -->
+</div>	<!-- .ui.main.container -->
 
 <script type="text/javascript" src="/scripts/show.js"></script>
 <% include ../partials/footer %>

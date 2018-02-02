@@ -1,6 +1,9 @@
 $(document).ready(function() {
 	// collapsible comment box
-	$(".ui.accordion").accordion();
+	$(".ui.accordion")
+		.accordion()
+		.accordion({ "exclusive": false })
+	;
 
 	// delete confirmation
 	$(".ui.modal").modal("attach events", ".delete-modal", "show");

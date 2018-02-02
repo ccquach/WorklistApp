@@ -76,7 +76,7 @@ router.post("/", isLoggedIn, function(req, res) {
 
 // SHOW ROUTE
 router.get("/:id", isLoggedIn, function(req, res) {
-	Account.findById(req.params.id).populate("comments").exec(function(err, foundAccount) {
+	Account.findById(req.params.id).populate("comments").populate("logs").exec(function(err, foundAccount) {
 		if(err || !foundAccount) {
 			req.flash("error", "Unable to find the account. Please note the account number and contact support.");
 			res.redirect("/accounts");
