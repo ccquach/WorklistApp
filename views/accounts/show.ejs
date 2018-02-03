@@ -414,8 +414,8 @@
 											<td><%= log.note %></td>
 										</tr>
 										<tr>
-											<td>CPSI </td>
-											<td>CALLED <%= log.payer.name.toUpperCase() %> AT <%= log.payer.phone.toUpperCase() %>. SPK W/ <%= log.payer.rep.toUpperCase() %>, CALL REF# <%= log.payer.ref.toUpperCase() %>. PER REP, <%= log.note.toUpperCase() %>.</td>
+											<td>CPSI <i class="copy icon right-float" title="click text to copy to clipboard"></i></td>
+											<td class="copy-target">CALLED <%= log.payer.name.toUpperCase() %> AT <%= log.payer.phone.toUpperCase() %>. SPK W/ <%= log.payer.rep.toUpperCase() %>, CALL REF# <%= log.payer.ref.toUpperCase() %>. PER REP, <%= log.note.toUpperCase() %>.</td>
 										</tr>
 									</tbody>
 								</table>
@@ -429,4 +429,5 @@
 </div>	<!-- .ui.main.container -->
 
 <script type="text/javascript" src="/scripts/show.js"></script>
+<script type="text/javascript" src="/scripts/copyToClipboard.js"></script>
 <% include ../partials/footer %>
