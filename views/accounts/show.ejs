@@ -429,7 +429,12 @@
 										<tr>
 											<td>CPSI <i class="copy icon right-float" title="click text to copy to clipboard"></i></td>
 											<td>
-												<span class="copy-target">CALLED <%= log.payer.name.toUpperCase() %> AT <%= log.payer.phone.toUpperCase() %>. SPK W/ <%= log.payer.rep.toUpperCase() %>, CALL REF# <%= log.payer.ref.toUpperCase() %>. PER REP, <%= log.note.toUpperCase() %>.</span>
+												<span class="copy-target">
+													CALLED <%= log.payer.name.toUpperCase() %> AT <%= log.payer.phone.toUpperCase() %>. SPK W/ <%= log.payer.rep.toUpperCase() %>, CALL REF# <%= log.payer.ref.toUpperCase() %>. 
+													<% if(log.note && log.note.length > 0) { %>
+														PER REP, <%= log.note.toUpperCase() %>
+													<% } %>
+													</span>
 												<span class="ui yellow label hide">Copied</span>
 											</td>
 										</tr>
