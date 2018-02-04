@@ -18,7 +18,7 @@
 				<span class="right floated item">
 					<em>Added by <%= account.author.username %> <%= moment(account.createdAt).fromNow() %></em>
 				</span>
-				<% if(currentUser && (account.author.id.equals(currentUser._id) || currentUser.isAdmin)) { %>
+				<% if(currentUser && (account.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin)) { %>
 					<!-- Edit -->
 					<div class="item">
 						<a data-tooltip="Edit" data-position="top center" href="/accounts/<%= account._id %>/edit">
