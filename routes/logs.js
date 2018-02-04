@@ -79,4 +79,31 @@ router.put("/:log_id", isLoggedIn, checkLogOwnership, function(req, res) {
 	});
 });
 
+// destroy log entry
+router.delete("/:log_id", isLoggedIn, isAdmin, function(req, res) {
+	// remove log entry from account logs array
+	Account.findByIdAndUpdate(req.params.id, {
+		$pull: {
+			logs: req.params.log_id
+		}
+	}, function(err) {
+		if(err) {
+			console.log(err);
+			req.flash("error", "Failed to delete follow-up log entry from account.");
+			return res.redirect("/accounts/" + req.params.id);
+		}
+		// delete log entry from db
+		Log.findByIdAndRemove(req.params.log_id, function(err) {
+			if(err) {
+				console.log(err);
+				req.flash("error", "Failed to delete follow-up log entry from database.");
+				res.back();
+			} else {
+				req.flash("success", "Successfully deleted follow-up log entry!");
+				res.redirect("/accounts/" + req.params.id);
+			}
+		});
+	});
+});
+
 module.exports = router;

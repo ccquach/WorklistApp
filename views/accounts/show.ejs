@@ -383,9 +383,22 @@
 								<%= moment(log.createdAt).format("YYYY-MM-DD") %> by <%= log.author.username %>
 							</div>
 							<div class=content>
-								<!-- Log edit / delete buttons -->
+								<!-- Log Edit button -->
 								<% if(currentUser && log.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
-									<a class="ui mini yellow button" href="/accounts/<%= account._id %>/logs/<%= log._id %>/edit">Edit</a>
+									<a class="ui mini yellow labeled icon button" href="/accounts/<%= account._id %>/logs/<%= log._id %>/edit">
+										<i class="edit icon"></i>
+										Edit
+									</a>
+								<% } %>
+								<!-- Log Delete button -->
+								<% if(currentUser && currentUser.isAdmin) { %>
+									<button class="ui mini negative labeled icon button delete delete-modal">
+										<i class="trash outline icon"></i>
+										Delete
+									</button>
+									<!-- Log Delete modal -->
+									<% var deleteRoute = "/accounts/" + account._id + "/logs/" + log._id %>
+									<% include ./partials/delete %>
 								<% } %>
 								<table class="ui green definition table">
 									<tbody>
