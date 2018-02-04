@@ -18,6 +18,10 @@ html {
 	float: right;
 }
 
+.ui.label.hide {
+	display: none;
+}
+
 /* ======================== */
 /* Menu 					*/
 /* ======================== */

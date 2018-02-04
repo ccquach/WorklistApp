@@ -15,6 +15,7 @@ function copyToClipboard() {
 		  if (event.clipboardData) {
 		    event.clipboardData.setData("text/plain", target.textContent);
 		    // console.log(event.clipboardData.getData("text"));
+		    $(this).parent().find("span.hide").css("display", "inline").fadeOut(1800);
 		  }
 		});
 	}
