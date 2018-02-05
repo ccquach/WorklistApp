@@ -4,6 +4,8 @@ var expressSanitizer 	= require("express-sanitizer"),
 	bodyParser 			= require("body-parser"),
 	mongoose 			= require("mongoose"),
 	express 			= require("express"),
+	session 			= require("express-session"),
+	MongoStore			= require("connect-mongo")(session),
 	back				= require("express-back"),
 	flash				= require("connect-flash"),
 	passport 			= require("passport"),
@@ -39,10 +41,14 @@ app.locals.moment = moment;
 // seedDB();  //seed the database
 
 // PASSPORT CONFIGURATION
-app.use(require("express-session")({
+app.use(session({
 	secret: "I am anything.",
 	resave: false,
-	saveUninitialized: false
+	saveUninitialized: false,
+	store: new MongoStore({	
+		mongooseConnection: mongoose.connection,
+		ttl: 8 * 60 // = 8 hours.
+	})
 }));
 app.use(back());
 app.use(passport.initialize());
@@ -57,7 +63,7 @@ app.use(function(req, res, next) {
 		success: req.flash("success"),
 		error: req.flash("error"),
 		info: req.flash("info"),
-		prevData: req.flash("prevData")
+		sess: req.session
 	};
 	next();
 });

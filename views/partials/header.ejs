@@ -4,14 +4,70 @@
 		<title>Worklist Application</title>
 		<link rel="stylesheet" type="text/css" href="/stylesheets/lib/semantic-ui-css/semantic.min.css">
 		<link rel="stylesheet" type="text/css" href="/stylesheets/app.css">
+		<link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
 		<script type="text/javascript" src="/scripts/lib/jquery/dist/jquery.min.js"></script>
 		<script type="text/javascript" src="/scripts/lib/semantic-ui/semantic.min.js"></script>
+		<script type="text/javascript" src="/scripts/selectFacility.js"></script>
 	</head>
 
 	<body>
 		<div class="ui fixed borderless main menu">
 			<div class="ui container">
 				<a class="header item" href="/"><i class="green leaf icon"></i>Ethos Management</a>
+				<a class="ui item facility-modal">
+					<i class="hospital icon"></i>
+					<% if(sess.facility) { %>
+						<%= sess.facility %>
+					<% } %>
+				</a>
+				<!-- Select Facility modal -->
+				<div class="ui basic modal facility">
+					<div class="ui icon header">
+						<i class="hospital icon"></i>
+						Facility
+					</div>
+					<div class="content">
+						<p>Select a facility to continue</p>
+					</div>
+					<div class="actions">
+						<div class="ui three column grid">
+							<div class="row">
+								<div class="column">
+									<a class="ui inverted button" href="/accounts?fac=ANH">
+										ANH
+									</a>
+								</div>
+								<div class="column">
+									<a class="ui inverted button" href="/accounts?fac=GAR">
+										GAR
+									</a>
+								</div>
+								<div class="column">
+									<a class="ui inverted button" href="/accounts?fac=GEM">
+										GEM
+									</a>
+								</div>
+							</div>
+							<div class="row">
+								<div class="column">
+									<a class="ui inverted button" href="/accounts?fac=MPH">
+										MPH
+									</a>
+								</div>
+								<div class="column">
+									<a class="ui inverted button" href="/accounts?fac=SGV">
+										SGV
+									</a>
+								</div>
+								<div class="column">
+									<a class="ui inverted button" href="/accounts?fac=WHT">
+										WHT
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<a class="ui item <%= typeof page !== 'undefined' && page === 'home' ? 'active' : '' %>" href="/accounts">
 					<i class="home icon"></i>
 					Home

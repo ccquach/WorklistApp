@@ -3,9 +3,18 @@
 <div id="login" class="ui main text segment container">
 	<form class="ui form" action="/login" method="POST">
 		<div class="ui header">Please sign in</div>
-
 		<div class="field">
-			<input type="text" name="username" placeholder="username" autofocus required>
+			<select name="facility" required autofocus>
+				<option value="ANH" selected>ANH</option>
+				<option value="GAR">GAR</option>
+				<option value="GEM">GEM</option>
+				<option value="MPH">MPH</option>
+				<option value="SGV">SGV</option>
+				<option value="WHT">WHT</option>
+			</select>
+		</div>
+		<div class="field">
+			<input type="text" name="username" placeholder="username" required>
 		</div>
 		<div class="field">
 			<input type="password" name="password" placeholder="password" required>

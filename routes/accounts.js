@@ -16,6 +16,13 @@ router.get("/", isLoggedIn, function(req, res) {
 	var sortDirection = parseInt(req.query.direction);
 	var sortObj = sortType && sortDirection ? [[ sortType, sortDirection ]] : [[ "lastModified", 1 ]];
 
+	// facility
+	if(req.query.fac) {
+		req.session.facility = req.query.fac;
+	}
+	console.log(req.session.facility);
+
+	// fuzzy search
 	if(req.query.search) {
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 		var findObj = { lastName: regex };

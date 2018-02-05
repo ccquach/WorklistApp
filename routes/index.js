@@ -39,9 +39,6 @@ router.post("/register", isLoggedIn, isAdmin, function(req, res) {
 		}
 		req.flash("success", "Registration completed for new user.");
 		res.redirect("/accounts");
-		// passport.authenticate("local")(req, res, function() {
-		// 	res.redirect("/accounts");
-		// });
 	});
 });
 
@@ -50,18 +47,25 @@ router.get("/login", function(req, res) {
 	res.render("login", { page: "login" });
 });
 
-// handle login logic
-router.post("/login", passport.authenticate("local", 
-	{
-		successRedirect: "/accounts",
-		failureRedirect: "/login",
-		failureFlash: true,
-		successFlash: "Welcome to the Worklist Application!"
-	}), function(req, res){
+router.post("/login", function(req, res, next) {
+	passport.authenticate("local", function(err, user, info) {
+		if (err) { return next(err); }
+		if (!user) { 
+			req.flash("error", info.message);
+			return res.redirect("/login"); 
+		}
+		req.logIn(user, function(err) {
+			if (err) { return next(err); }
+			req.session.facility = req.body.facility;
+			req.flash("success", "Welcome to the Worklist Application, " + req.user.firstName + "!");
+			return res.redirect("/accounts");
+		});
+	})(req, res, next);
 });
 
 // logout route
 router.get("/logout", function(req, res) {
+	delete req.session.facility;
 	req.logout();
 	req.flash("info", "You have successfully logged out!");
 	res.redirect("/login");
