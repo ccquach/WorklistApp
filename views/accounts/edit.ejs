@@ -53,7 +53,7 @@
 			<div class="field">
 				<label>Type</label>
 				<select name="account[type]">
-					<% var types = ["Commercial", "Medicare", "Agency", "Resolved"] %>
+					<% var types = ["", "Commercial", "Medicare", "Agency", "Resolved"] %>
 					<% types.forEach(function(type) { %>
 						<option value="<%= type %>" <%= account.type === type ? "selected" : "" %>><%= type %></option>
 					<% }); %>
