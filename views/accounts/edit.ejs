@@ -73,14 +73,20 @@
 		<!-- COMMERCIAL -->
 		<h4 class="ui dividing header">Commercial</h4>
 		<div class="ui segment">
-			<div class="field">
-				<label>Financial Class</label>
-				<select name="account[commercial][fc]">
-					<% var fcs = ["", "GD", "HF", "RC", "SY"]; %>
-					<% fcs.forEach(function(fc) { %>
-						<option value="<%= fc %>" <%= account.commercial.fc === fc ? "selected" : "" %>><%= fc %></option>
-					<% }) %>
-				</select>
+			<div class="two fields">
+				<div class="field">
+					<label>Financial Class</label>
+					<select name="account[commercial][fc]">
+						<% var fcs = ["", "GD", "HF", "RC", "SY"]; %>
+						<% fcs.forEach(function(fc) { %>
+							<option value="<%= fc %>" <%= account.commercial.fc === fc ? "selected" : "" %>><%= fc %></option>
+						<% }) %>
+					</select>
+				</div>
+				<div class="field">
+					<label>Payer</label>
+					<input type="text" name="account[commercial][payer]" value=<%= account.commercial.payer >
+				</div>
 			</div>
 			<div class="two fields">
 				<div class="field">
