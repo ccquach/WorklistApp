@@ -20,14 +20,13 @@ router.get("/", isLoggedIn, function(req, res) {
 	if(req.query.fac) {
 		req.session.facility = req.query.fac;
 	}
-	console.log(req.session.facility);
 
 	// fuzzy search
 	if(req.query.search) {
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-		var findObj = { lastName: regex };
+		var findObj = { facility: req.session.facility, lastName: regex };
 	} else {
-		var findObj = {};
+		var findObj = { facility: req.session.facility };
 	}
 
 	Account.find(findObj).sort(sortObj).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allAccounts) {
@@ -63,6 +62,8 @@ router.get("/new", isLoggedIn, function(req, res) {
 router.post("/", isLoggedIn, function(req, res) {
 	// New account
 	var newAccount = req.body.account;
+	// Add facility to account
+	newAccount.facility = req.session.facility;
 	// Add user id and username to account
 	newAccount.author = {
 		id: req.user._id,
