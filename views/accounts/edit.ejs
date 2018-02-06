@@ -24,17 +24,17 @@
 			</div>
 			<div class="field">
 				<label>Date of Birth</label>
-				<input type="date" name="account[dob]" value="<%= moment(account.dob).format("MM/DD/YYYY") %>">
+				<input type="date" name="account[dob]" value="<%= moment(account.dob).format("YYYY-MM-DD") %>">
 			</div>
 			<div class="field">
 				<div class="two fields">
 					<div class="field">
 						<label>Admit</label>
-						<input type="date" name="account[admit]" value="<%= moment(account.admit).format("MM/DD/YYYY") %>">
+						<input type="date" name="account[admit]" value="<%= moment(account.admit).format("YYYY-MM-DD") %>">
 					</div>
 					<div class="field">
 						<label>Discharge</label>
-						<input type="date" name="account[discharge]" value="<%= moment(account.discharge).format("MM/DD/YYYY") %>">
+						<input type="date" name="account[discharge]" value="<%= moment(account.discharge).format("YYYY-MM-DD") %>">
 					</div>
 				</div>
 			</div>
@@ -55,7 +55,7 @@
 				<select name="account[type]">
 					<% var types = ["Commercial", "Medicare", "Agency", "Resolved"] %>
 					<% types.forEach(function(type) { %>
-						<option value="<%= type %>" "<%= account.type === type ? "selected" : "" %>"><%= type %></option>
+						<option value="<%= type %>" <%= account.type === type ? "selected" : "" %>><%= type %></option>
 					<% }); %>
 				</select>
 			</div>
@@ -85,7 +85,7 @@
 				</div>
 				<div class="field">
 					<label>Payer</label>
-					<input type="text" name="account[commercial][payer]" value=<%= account.commercial.payer >
+					<input type="text" name="account[commercial][payer]" value=<%= account.commercial.payer %>>
 				</div>
 			</div>
 			<div class="two fields">
@@ -96,11 +96,11 @@
 				<div class="field">
 					<label>Eligibility</label>
 					<span>
-						<input type="radio" name="account[commercial][isEligible]" value="true" checked>
+						<input type="radio" name="account[commercial][isEligible]" value="true" <%= account.commercial.isEligible === true ? "checked" : "" %>>
 						<label>Yes</label>
 					</span>
 					<span>
-						<input type="radio" name="account[commercial][isEligible]" value="false">
+						<input type="radio" name="account[commercial][isEligible]" value="false" <%= account.commercial.isEligible === false ? "checked" : "" %>>
 						<label>No</label>
 					</span>
 				</div>
@@ -117,7 +117,7 @@
 			<div class="two fields">
 				<div class="field">
 					<label>Billed Date</label>
-					<input type="date" name="account[commercial][billedDate]" value="<%= moment(account.commercial.billedDate).format("MM/DD/YYYY") %>">
+					<input type="date" name="account[commercial][billedDate]" value="<%= moment(account.commercial.billedDate).format("YYYY-MM-DD") %>">
 				</div>
 				<div class="field">
 					<label>Expected Reimbursement</label>
@@ -127,7 +127,7 @@
 			<div class="three fields">
 				<div class="field">
 					<label>Payment Date</label>
-					<input type="date" name="account[commercial][paidOn]" value="<%= moment(account.commercial.paidOn).format("MM/DD/YYYY") %>">
+					<input type="date" name="account[commercial][paidOn]" value="<%= moment(account.commercial.paidOn).format("YYYY-MM-DD") %>">
 				</div>
 				<div class="field">
 					<label>Payment Amount</label>
@@ -150,11 +150,11 @@
 				</div>
 				<div class="field">
 					<label>HMS Issue Date</label>
-					<input type="date" name="account[mcal][hmsIssueDate]" value="<%= moment(account.mcal.hmsIssueDate).format("MM/DD/YYYY") %>">
+					<input type="date" name="account[mcal][hmsIssueDate]" value="<%= moment(account.mcal.hmsIssueDate).format("YYYY-MM-DD") %>">
 				</div>
 				<div class="field">
 					<label>HMS Close Date</label>
-					<input type="date" name="account[mcal][hmsCloseDate]" value="<%= moment(account.mcal.hmsCloseDate).format("MM/DD/YYYY") %>">
+					<input type="date" name="account[mcal][hmsCloseDate]" value="<%= moment(account.mcal.hmsCloseDate).format("YYYY-MM-DD") %>">
 				</div>
 			</div>
 			<div class="three fields">
@@ -164,7 +164,7 @@
 				</div>
 				<div class="field">
 					<label>Retraction RA Date</label>
-					<input type="date" name="account[mcal][retractionDate]" value="<%= moment(account.mcal.retractionDate).format("MM/DD/YYYY") %>">
+					<input type="date" name="account[mcal][retractionDate]" value="<%= moment(account.mcal.retractionDate).format("YYYY-MM-DD") %>">
 				</div>
 				<div class="field">
 					<label>Recoupment Amount</label>
@@ -174,7 +174,7 @@
 			<div class="two fields">
 				<div class="field">
 					<label>CIF Date</label>
-					<input type="date" name="account[mcal][cifDate]" value="<%= moment(account.mcal.cifDate).format("MM/DD/YYYY") %>">
+					<input type="date" name="account[mcal][cifDate]" value="<%= moment(account.mcal.cifDate).format("YYYY-MM-DD") %>">
 				</div>
 				<div class="field">
 					<label>CIF Amount</label>
