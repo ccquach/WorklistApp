@@ -157,7 +157,7 @@
 					</tr>
 					<tr>
 						<td>Payment Variance</td>
-						<td></td>
+						<td><%= account.commercial.reim && account.commercial.expected ? account.commercial.reim - account.commercial.expected : "" %></td>
 					</tr>
 				</tbody>
 			</table>

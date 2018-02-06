@@ -24,7 +24,6 @@ var accountSchema = new mongoose.Schema({
 		paidOn: Date,
 		reim: Number,
 		soc: Number,
-		variance: Number,
 		status: String
 	},
 	mcal: {
