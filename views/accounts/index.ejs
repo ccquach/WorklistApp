@@ -41,21 +41,25 @@
 		<table class="ui fixed single line selectable sortable celled green table">
 			<thead>
 				<tr>
+					<th class="one wide clickable-row" 
+						data-href="/accounts?type=mcal.cycle&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+						Cycle
+					</th>
+					<th class="two wide clickable-row" 
+						data-href="/accounts?type=mcal.hmsCloseDate&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+						HMS Close Date
+					</th>
 					<th class="two wide clickable-row" 
 						data-href="/accounts?type=number&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
 						Account #
 					</th>
-					<th class="six wide clickable-row"
+					<th class="seven wide clickable-row"
 						data-href="/accounts?type=lastName&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
 						Patient Name
 					</th>
-					<th class="four wide clickable-row"
-						data-href="/accounts?type=currentBalance&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
-						Current Balance
-					</th>
 					<th class="two wide clickable-row"
-						data-href="/accounts?type=createdAt&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
-						Date Added
+						data-href="/accounts?type=charges&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+						Total Charges
 					</th>
 					<th class="two wide clickable-row"
 						data-href="/accounts?type=lastModified&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
@@ -66,11 +70,12 @@
 			<tbody>
 				<% accounts.forEach(function(account) { %>
 					<tr class="clickable-row" data-href="/accounts/<%= account._id %>">
+						<td><%= account.mcal.cycle %></td>
+						<td><%= account.mcal.hmsCloseDate ? moment(account.mcal.hmsCloseDate).format("MM/DD/YYYY") : "" %></td>
 						<td><%= account.number %></td>
-						<td><%= account.lastName %>, <%= account.firstName %></td>
-						<td>$<%= parseFloat(account.balance).toFixed(2) %></td>
-						<td><%= moment(account.createdAt).format("M/D/YYYY") %></td>
-						<td><%= moment(account.lastModified).format("M/D/YYYY") %></td>
+						<td><%= account.lastName %> <%= account.firstName %></td>
+						<td><%= account.charges ? numeral(account.charges).format("($0,0.00)") : "" %></td>
+						<td><%= account.lastModified ? moment(account.lastModified).add(10, "day").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 				<% }) %>
 			</tbody>
@@ -78,7 +83,7 @@
 				<!-- Pagination -->
 				<% if (pages && pages > 0) { %>
 					<tr>
-						<th colspan="5">
+						<th colspan="6">
 							<div class="ui centered grid">
 								<div class="center aligned column">
 									<div class="ui pagination menu">
