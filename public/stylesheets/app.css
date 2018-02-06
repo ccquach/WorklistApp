@@ -34,14 +34,6 @@ html {
 	font-size: 1.5em;	
 }
 
-.ui.vertical.menu {
-	width: 11%;
-	overflow: visible;
-	position: fixed;
-	/*padding-top: 170px;*/
-	padding-top: 12.5em;
-}
-
 .menu i.search.icon {
 	font-size: 1.0em;
 }
