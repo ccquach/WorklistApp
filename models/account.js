@@ -32,7 +32,7 @@ var accountSchema = new mongoose.Schema({
 		recoup: Number,
 		cifDate: Date,
 		cifAmount: Number,
-		cycle: String,
+		cycle: Number,
 		hmsIssueDate: Date,
 		hmsCloseDate: Date
 	},
