@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var uniqueValidator = require("mongoose-unique-validator");
 
 var accountSchema = new mongoose.Schema({
+	facility: String,
 	number: { type: String, unique: true },
 	firstName: String,
 	lastName: String,
@@ -30,7 +31,7 @@ var accountSchema = new mongoose.Schema({
 		arTrans: String,
 		retractionDate: Date,
 		recoup: Number,
-		isCif: Boolean,
+		cifDate: Date,
 		cifAmount: Number,
 		cycle: String,
 		hmsIssueDate: Date,

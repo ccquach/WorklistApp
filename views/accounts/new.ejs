@@ -1,27 +1,180 @@
 <% include ../partials/header %>
 
-<div class="ui main text segment container">
+<div class="ui main text container">
 	<div class="ui huge header">New Account</div>
 	<form class="ui form" action="/accounts" method="POST">
-		<h4 class="ui dividing header">Patient Information</h4>
-		<div class="field">
-			<label>Account #</label>
-			<input autofocus type="text" name="account[number]" placeholder="########" maxlength="8" required>
-		</div>
-		<div class="field">
-			<label>Patient Name</label>
+		<!-- PATIENT DETAILS -->
+		<h4 class="ui dividing header">Patient Details</h4>
+		<div class="ui segment">
+			<div class="field">
+				<label>Account #</label>
+				<input autofocus type="text" name="account[number]" placeholder="########" maxlength="8" required>
+			</div>
+			<div class="field">
+				<div class="two fields">
+					<div class="field">
+						<label>First Name</label>
+						<input type="text" name="account[firstName]" placeholder="John">
+					</div>
+					<div class="field">
+						<label>Last Name</label>
+						<input type="text" name="account[lastName]" placeholder="Doe">
+					</div>
+				</div>
+			</div>
+			<div class="field">
+				<label>Date of Birth</label>
+				<input type="date" name="account[dob]">
+			</div>
+			<div class="field">
+				<div class="two fields">
+					<div class="field">
+						<label>Admit</label>
+						<input type="date" name="account[admit]">
+					</div>
+					<div class="field">
+						<label>Discharge</label>
+						<input type="date" name="account[discharge]">
+					</div>
+				</div>
+			</div>
 			<div class="two fields">
 				<div class="field">
-					<input type="text" name="account[firstName]" placeholder="First Name" required>
+					<label>Total Charges</label>
+					<input type="number" step="0.01" name="account[charges]" placeholder="0.00">
 				</div>
 				<div class="field">
-					<input type="text" name="account[lastName]" placeholder="Last Name" required>
+					<label>Current Balance</label>
+					<input type="number" step="0.01" name="account[balance]" placeholder="0.00">
+				</div>
+			</div>
+
+			<h4 class="ui dividing header">Account Status</h4>
+			<div class="field">
+				<label>Type</label>
+				<select name="account[type]">
+					<% var types = ["", "Commercial", "Medicare", "Agency", "Resolved"]; %>
+					<% types.forEach(function(type) { %>
+						<option value="<%= type %>" <%= types.indexOf(type) === 0 ? "selected" : "" %>><%= type %></option>
+					<% }); %>
+				</select>
+			</div>
+			<div class="field">
+				<label>Status</label>
+				<select name="account[status]">
+					<% var statuses = ["", "Appeal Denied", "Appeal in Process", "Assign to Legal", "Pending Appeal Status", "Pending Baby Balance Transfer", "Pending CIF Retraction", "Pending Commercial Recoupment", "Pending Hardcopy RA", "Pending HMS Refund", "Pending HMS Retraction", "Pending Primary Payment", "Pending Secondary Payment", "Pending Underpayment", "Secondary Claim Denied", "Other"]; %>
+					<% statuses.forEach(function(status) { %>
+						<option value="<%= status %>" <%= statuses.indexOf(status) === 0 ? "selected" : "" %>><%= status %></option>
+					<% }); %>
+				</select>
+			</div>
+		</div>
+
+		<!-- COMMERCIAL -->
+		<h4 class="ui dividing header">Commercial</h4>
+		<div class="ui segment">
+			<div class="field">
+				<label>Financial Class</label>
+				<select name="account[commercial][fc]">
+					<% var fcs = ["", "GD", "HF", "RC", "SY"]; %>
+					<% fcs.forEach(function(fc) { %>
+						<option value="<%= fc %>" <%= fcs.indexOf(fc) === 0 ? "selected" : "" %>><%= fc %></option>
+					<% }) %>
+				</select>
+			</div>
+			<div class="two fields">
+				<div class="field">
+					<label>Insured Id</label>
+					<input type="text" name="account[commercial][insuredId]" placeholder="R1234567890">
+				</div>
+				<div class="field">
+					<label>Eligibility</label>
+					<span>
+						<input type="radio" name="account[commercial][isEligible]" value="true" checked>
+						<label>Yes</label>
+					</span>
+					<span>
+						<input type="radio" name="account[commercial][isEligible]" value="false">
+						<label>No</label>
+					</span>
+				</div>
+			</div>
+			<div class="field">
+				<label>Status</label>
+				<select name="account[commercial][status]">
+					<% var statuses = ["", "Appeal Denied", "Billed", "Denied", "Paid", "Payment Included in Other Services", "Assigned to Legal", "No Expected Reimbursement"]; %>
+					<% statuses.forEach(function(status) { %>
+						<option value="<%= status %>" <%= statuses.indexOf(status) === 0 ? "selected" : "" %>><%= status %></option>
+					<% }) %>
+				</select>
+			</div>
+			<div class="two fields">
+				<div class="field">
+					<label>Billed Date</label>
+					<input type="date" name="account[commercial][billedDate]">
+				</div>
+				<div class="field">
+					<label>Expected Reimbursement</label>
+					<input type="number" step="0.01" name="account[commercial][expected]" placeholder="0.00">
+				</div>
+			</div>
+			<div class="three fields">
+				<div class="field">
+					<label>Payment Date</label>
+					<input type="date" name="account[commercial][paidOn]">
+				</div>
+				<div class="field">
+					<label>Payment Amount</label>
+					<input type="number" step="0.01" name="account[commercial][reim]" placeholder="0.00">
+				</div>
+				<div class="field">
+					<label>Patient Liability</label>
+					<input type="number" step="0.01" name="account[commercial][soc]" placeholder="0.00">
 				</div>
 			</div>
 		</div>
-		<div class="field">
-			<label>Current Balance</label>
-			<input type="number" step="0.01" name="account[currentBalance]" placeholder="0.00" required>
+
+		<!-- MEDI-CAL -->
+		<h4 class="ui dividing header">Medi-cal</h4>
+		<div class="ui segment">
+			<div class="three fields">
+				<div class="field">
+					<label>Cycle #</label>
+					<input type="text" name="account[mcal][cycle]" placeholder="#">
+				</div>
+				<div class="field">
+					<label>HMS Issue Date</label>
+					<input type="date" name="account[mcal][hmsIssueDate]">
+				</div>
+				<div class="field">
+					<label>HMS Close Date</label>
+					<input type="date" name="account[mcal][hmsCloseDate]">
+				</div>
+			</div>
+			<div class="three fields">
+				<div class="field">
+					<label>AR Trans Number</label>
+					<input type="text" name="account[mcal][arTrans]" placeholder="##########">
+				</div>
+				<div class="field">
+					<label>Retraction RA Date</label>
+					<input type="date" name="account[mcal][retractionDate]">
+				</div>
+				<div class="field">
+					<label>Recoupment Amount</label>
+					<input type="number" step="0.01" name="account[mcal][recoup]" placeholder="0.00">
+				</div>
+			</div>
+			<div class="two fields">
+				<div class="field">
+					<label>CIF Date</label>
+					<input type="date" name="account[mcal][cifDate]">
+				</div>
+				<div class="field">
+					<label>CIF Amount</label>
+					<input type="number" step="0.01" name="account[mcal][cifAmount]" placeholder="0.00">
+				</div>
+			</div>
 		</div>
 		<input class="ui button" type="submit">
 	</form>

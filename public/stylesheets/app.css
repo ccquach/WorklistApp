@@ -157,3 +157,10 @@ th a:hover {
 	color: #fff;
 	margin: 0 auto;
 }
+
+/* ======================== */
+/* Forms					*/
+/* ======================== */
+input[type="radio"] + label {
+	margin-right: 25px;
+}
