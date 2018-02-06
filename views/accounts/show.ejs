@@ -163,7 +163,7 @@
 					</tr>
 					<tr>
 						<td>Payment Variance</td>
-						<td><%= account.commercial.reim && account.commercial.expected ? numeral(account.commercial.reim - account.commercial.expected).format("($0,0.00)") : "" %></td>
+						<td><%= account.commercial.reim && account.commercial.expected && account.commercial.soc ? numeral(account.commercial.reim + account.commercial.soc - account.commercial.expected).format("($0,0.00)") : "" %></td>
 					</tr>
 				</tbody>
 			</table>
