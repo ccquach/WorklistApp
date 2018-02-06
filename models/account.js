@@ -3,7 +3,7 @@ var uniqueValidator = require("mongoose-unique-validator");
 
 var accountSchema = new mongoose.Schema({
 	facility: String,
-	number: { type: String, unique: true },
+	number: String,
 	firstName: String,
 	lastName: String,
 	dob: Date,
