@@ -65,27 +65,27 @@
 					</tr>
 					<tr>
 						<td>Patient Name</td>
-						<td><%= account.lastName %>, <%= account.firstName %></td>
+						<td><%= account.lastName %> <%= account.firstName %></td>
 					</tr>
 					<tr>
 						<td>DOB</td>
-						<td><%= moment(account.dob).format("MM/DD/YYYY") %></td>
+						<td><%= account.dob ? moment(account.dob).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Admit</td>
-						<td><%= moment(account.admit).format("MM/DD/YYYY") %></td>
+						<td><%= account.admit ? moment(account.admit).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Discharge</td>
-						<td><%= moment(account.dicharge).format("MM/DD/YYYY") %></td>
+						<td><%= account.discharge ? moment(account.discharge).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Total Charges</td>
-						<td><%= numeral(account.charges).format("($0,0.00)") %></td>
+						<td><%= account.charges ? numeral(account.charges).format("($0,0.00)") : "" %></td>
 					</tr>
 					<tr>
 						<td>AR Balance</td>
-						<td><%= numeral(account.balance).format("($0,0.00)") %></td>
+						<td><%= account.balance ? numeral(account.balance).format("($0,0.00)") : "" %></td>
 					</tr>
 				</tbody>
 			</table>
@@ -131,8 +131,10 @@
 						<td>Eligibility</td>
 						<% if(account.commercial.isEligible === true) { %>
 							<td>Yes</td>
-						<% } else { %>
+						<% } else if(account.commercial.isEligible === false) { %>
 							<td>No</td>
+						<% } else { %>
+							<td></td>
 						<% } %>
 					</tr>
 					<tr>
@@ -141,23 +143,23 @@
 					</tr>
 					<tr>
 						<td>Billed Date</td>
-						<td><%= moment(account.commercial.billedDate).format("MM/DD/YYYY") %></td>
+						<td><%= account.commercial.billedDate ? moment(account.commercial.billedDate).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Expected Reimbursement</td>
-						<td><%= numeral(account.commercial.expected).format("($0,0.00)") %></td>
+						<td><%= account.commercial.expected ? numeral(account.commercial.expected).format("($0,0.00)") : "" %></td>
 					</tr>
 					<tr>
 						<td>Payment Date</td>
-						<td><%= moment(account.commercial.paidOn).format("MM/DD/YYYY") %></td>
+						<td><%= account.commercial.paidOn ? moment(account.commercial.paidOn).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Payment Amount</td>
-						<td><%= numeral(account.commercial.reim).format("($0,0.00)") %></td>
+						<td><%= account.commercial.reim ? numeral(account.commercial.reim).format("($0,0.00)") : "" %></td>
 					</tr>
 					<tr>
 						<td>Patient Liability (Copay/Deduct./Coins.)</td>
-						<td><%= numeral(account.commercial.soc).format("($0,0.00)") %></td>
+						<td><%= account.commercial.soc ? numeral(account.commercial.soc).format("($0,0.00)") : "" %></td>
 					</tr>
 					<tr>
 						<td>Payment Variance</td>
@@ -177,11 +179,11 @@
 					</tr>
 					<tr>
 						<td>HMS Issue Date</td>
-						<td><%= moment(account.mcal.hmsIssueDate).format("MM/DD/YYYY") %></td>
+						<td><%= account.mcal.hmsIssueDate ? moment(account.mcal.hmsIssueDate).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>HMS Close Date</td>
-						<td><%= moment(account.mcal.hmsCloseDate).format("MM/DD/YYYY") %></td>
+						<td><%= account.mcal.hmsCloseDate ? moment(account.mcal.hmsCloseDate).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>AR Trans Number</td>
@@ -189,19 +191,19 @@
 					</tr>
 					<tr>
 						<td>Retraction RA Date</td>
-						<td><%= moment(account.mcal.retractionDate).format("MM/DD/YYYY") %></td>
+						<td><%= account.mcal.retractionDate ? moment(account.mcal.retractionDate).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Recoupment Amount</td>
-						<td><%= numeral(account.mcal.recoup).format("($0,0.00)") %></td>
+						<td><%= account.mcal.recoup ? numeral(account.mcal.recoup).format("($0,0.00)") : "" %></td>
 					</tr>
 					<tr>
 						<td>CIF Date</td>
-						<td><%= moment(account.mcal.cifDate).format("MM/DD/YYYY") %></td>
+						<td><%= account.mcal.cifDate ? moment(account.mcal.cifDate).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>CIF Amount</td>
-						<td><%= numeral(account.mcal.cifAmount).format("($0,0.00)") %></td>
+						<td><%= account.mcal.cifAmount ? numeral(account.mcal.cifAmount).format("($0,0.00)") : "" %></td>
 					</tr>
 				</tbody>
 			</table>
