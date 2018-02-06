@@ -6,7 +6,7 @@ $(document).ready(function() {
 	;
 
 	// delete confirmation
-	$(".ui.modal").modal("attach events", ".delete-modal", "show");
+	$("#delete-modal.ui.modal").modal("attach events", ".delete-modal", "show");
 	$(".ok.button").on("click", function() {
 		$(this).find("form").submit();
 	});

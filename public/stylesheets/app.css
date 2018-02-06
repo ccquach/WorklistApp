@@ -143,18 +143,17 @@ th a:hover {
 /* ======================== */
 /* Facility Modal			*/
 /* ======================== */
-.ui.modal.facility div.column {
+#facility-modal div.column {
 	padding: 0;
 	margin: 0;
 	text-align: center;
 }
 
-.ui.modal.facility a {
+#facility-modal a {
 	width: 80%;
 	height: 100%;
 	font-family: Shrikhand;
 	font-size: 3.0em;
-	color: #fff;
 	margin: 0 auto;
 }
 
