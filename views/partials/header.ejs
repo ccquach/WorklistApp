@@ -77,7 +77,7 @@
 					<% if(!currentUser) { %>
 						<a class="ui item <%= typeof page !== 'undefined' && page === 'login' ? 'active' : '' %>" href="/login">Login</a>
 					<% } else { %>
-						<a class="ui item" href="#">Hello, <%= currentUser.firstName %></a>
+						<a class="ui item">Hello, <%= currentUser.firstName %></a>
 						<% if(currentUser.isAdmin) { %>
 							<a class="ui item <%= typeof page !== 'undefined' && page === 'register' ? 'active' : '' %>" href="/register">Register</a>
 						<% } %>
