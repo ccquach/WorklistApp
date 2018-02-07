@@ -69,17 +69,28 @@ router.post("/", isLoggedIn, function(req, res) {
 		id: req.user._id,
 		username: req.user.username
 	};
-	// Create new account
-	Account.create(newAccount, function(err, newAccount) {
-		if(err) {
-			req.flash("error", "Failed to create new account: " + err.message);
-			res.redirect("/accounts/new");
+	// Check if account number already exists
+	Account.findOne({ "facility": req.session.facility, "number": req.body.account.number }, function(err, foundAccount) {
+		// If account does not exist
+		if(err || !foundAccount) {
+			// Create new account
+			Account.create(newAccount, function(err, newAccount) {
+				if(err) {
+					req.flash("error", "Failed to create new account: " + err.message);
+					res.redirect("/accounts/new");
+				} else {
+					console.log("=== NEW ===:\n" + newAccount);
+					req.flash("success", "Successfully created new account.")
+					res.redirect("/accounts");
+				}
+			});
+		// If account exists, display message notifying user
 		} else {
-			console.log("=== NEW ===:\n" + newAccount);
-			req.flash("success", "Successfully created new account.")
-			res.redirect("/accounts");
+			req.flash("error", "Account # " + req.body.account.number + " already exists!");
+			res.back();
 		}
 	});
+	
 });
 
 // SHOW ROUTE
