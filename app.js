@@ -12,7 +12,7 @@ var expressSanitizer 	= require("express-sanitizer"),
 	LocalStrategy 		= require("passport-local"),
 	seedDB				= require("./seeds"),
 	numeral				= require("numeral"),
-	moment				= require("moment"),
+	moment				= require("moment-business-days"),
 	app 				= express();
 
 // MONGOOSE MODELS

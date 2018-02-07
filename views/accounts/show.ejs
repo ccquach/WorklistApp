@@ -105,7 +105,7 @@
 					</tr>
 					<tr>
 						<td>Follow-up Date</td>
-						<td><%= moment(account.lastModified).add(10, "day").format("MM/DD/YYYY") %></td>
+						<td><%= moment(account.lastModified).businessAdd(10, "day").format("MM/DD/YYYY") %></td>
 					</tr>
 				</tbody>
 			</table>
