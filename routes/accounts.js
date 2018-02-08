@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Account = require("../models/account");
 var middleware = require("../middleware");
+var moment = require("moment-business-days");
 const { isLoggedIn, checkAccountOwnership } = middleware;
 
 // INDEX ROUTE
@@ -12,7 +13,7 @@ router.get("/", isLoggedIn, function(req, res) {
 	var pageNumber = pageQuery ? pageQuery : 1;
 
 	// sorting
-	var sortType = req.query.type;
+	var sortType = req.query.sortType;
 	var sortDirection = parseInt(req.query.direction);
 	var sortObj = sortType && sortDirection ? [[ sortType, sortDirection ]] : [[ "lastModified", 1 ]];
 
@@ -22,11 +23,26 @@ router.get("/", isLoggedIn, function(req, res) {
 	}
 
 	// fuzzy search
+	var findObj = {};
 	if(req.query.search) {
 		const regex = new RegExp(escapeRegex(req.query.search), 'gi');
 		var findObj = { facility: req.session.facility, lastName: regex };
 	} else {
 		var findObj = { facility: req.session.facility };
+	}
+
+	// filter search
+	if(req.query.cycle) { findObj["mcal.cycle"] = parseInt(req.query.cycle); }
+	if(req.query.type) { findObj.type = req.query.type; }
+	if(req.query.status) { findObj.status = req.query.status; }
+	if(req.query.followup) { 
+		var year = parseInt(req.query.followup.slice(0, 4)),
+			month = parseInt(req.query.followup.slice(5, 7)),
+			day = parseInt(req.query.followup.slice(8,));
+		findObj.lastModified = { 
+			"$gte": moment(new Date(year, month - 1, day)).businessSubtract(10), 
+			"$lt": moment(new Date(year, month - 1, day + 1)).businessSubtract(10) 
+		};
 	}
 
 	Account.find(findObj).sort(sortObj).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allAccounts) {

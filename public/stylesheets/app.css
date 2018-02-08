@@ -29,6 +29,10 @@ html {
 	border: none;
 }
 
+.ui.secondary.menu {
+	margin: 0 auto;
+}
+
 .main.menu i.icon,
 .secondary.menu i.icon {
 	font-size: 1.5em;	
@@ -150,8 +154,9 @@ th a:hover {
 }
 
 /* ======================== */
-/* Forms					*/
+/* Index					*/
 /* ======================== */
-input[type="radio"] + label {
-	margin-right: 25px;
+#filter-accordion,
+#filter-accordion .ui.segment {
+	margin: auto;
 }

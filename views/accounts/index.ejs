@@ -8,7 +8,54 @@
 	
 	<!-- SECONDARY MENU -->
 	<div class="ui secondary menu">
-		<div class="right menu">
+		<!-- TABLE FILTER -->
+		<div id="filter-accordion" class="ui fluid accordion">
+			<div class="title">
+				<i class="filter icon"></i>
+				Filter
+			</div>
+			<div class="content">
+				<div class="ui segment">
+					<form class="ui form transition visible" action="/accounts" method="GET">
+						<div class="four fields">
+							<!-- Cycle -->
+							<div class="field">
+								<label>Cycle</label>
+								<input type="number" step="1" name="cycle" autofocus>
+							</div>
+							<!-- Type -->
+							<div class="field">
+								<label>Type</label>
+								<select class="ui fluid dropdown" name="type">
+									<% var types = ["", "Commercial", "Medicare", "Agency", "Resolved"] %>
+									<% types.forEach(function(type) { %>
+										<option value="<%= type %>" <%= types.indexOf(type) === 0 ? "selected" : "" %>><%= type %></option>
+									<% }); %>
+								</select>
+							</div>
+							<!-- Status -->
+							<div class="field">
+								<label>Status</label>
+								<select class="ui fluid dropdown" name="status">
+									<% var statuses = ["", "Appeal Denied", "Appeal in Process", "Assign to Legal", "Pending Appeal Status", "Pending Baby Balance Transfer", "Pending CIF Retraction", "Pending Commercial Recoupment", "Pending Hardcopy RA", "Pending HMS Refund", "Pending HMS Retraction", "Pending Primary Payment", "Pending Secondary Payment", "Pending Underpayment", "Secondary Claim Denied", "Other"]; %>
+									<% statuses.forEach(function(status) { %>
+										<option value="<%= status %>" <%= statuses.indexOf(status) === 0 ? "selected" : "" %>><%= status %></option>
+									<% }); %>
+								</select>
+							</div>
+							<!-- Follow-up Date -->
+							<div class="field">
+								<label>Follow-up Date</label>
+								<input type="date" name="followup">
+							</div>
+						</div>
+						<a href="/accounts">Clear filters</a>
+						<button id="filter-button" class="ui right floated mini button">Filter</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div id="index-right-menu" class="right menu">
 			<!-- ADD ACCOUNT -->
 			<div class="item">
 				<a class="add user icon button" data-tooltip="Add Account" data-position="top center" href="/accounts/new">
@@ -41,29 +88,29 @@
 		<table class="ui fixed single line selectable sortable celled green table">
 			<thead>
 				<tr>
-					<th class="one wide clickable-row" 
-						data-href="/accounts?type=mcal.cycle&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+					<th class="one wide clickable-row" title="Cycle"
+						data-href="/accounts?sortType=mcal.cycle&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
 						Cycle
 					</th>
-					<th class="two wide clickable-row" 
-						data-href="/accounts?type=mcal.hmsCloseDate&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+					<th class="two wide clickable-row" title="HMS Close Date"
+						data-href="/accounts?sortType=mcal.hmsCloseDate&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
 						HMS Close Date
 					</th>
-					<th class="two wide clickable-row" 
-						data-href="/accounts?type=number&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+					<th class="two wide clickable-row" title="Account Number"
+						data-href="/accounts?sortType=number&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
 						Account #
 					</th>
-					<th class="seven wide clickable-row"
-						data-href="/accounts?type=lastName&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+					<th class="seven wide clickable-row" title="Patient Name"
+						data-href="/accounts?sortType=lastName&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
 						Patient Name
 					</th>
-					<th class="two wide clickable-row"
-						data-href="/accounts?type=charges&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+					<th class="two wide clickable-row" title="Total Charges"
+						data-href="/accounts?sortType=charges&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
 						Total Charges
 					</th>
-					<th class="two wide clickable-row"
-						data-href="/accounts?type=lastModified&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
-						Last Modified
+					<th class="two wide clickable-row" title="Follow-up Date"
+						data-href="/accounts?sortType=lastModified&direction=<%= sort[0][1] == 1 ? -1 : 1 %>&search=<%= search %>">
+						Follow-up Date
 					</th>
 				</tr>
 			</thead>
@@ -75,7 +122,7 @@
 						<td><%= account.number %></td>
 						<td><%= account.lastName %> <%= account.firstName %></td>
 						<td><%= account.charges ? numeral(account.charges).format("($0,0.00)") : "" %></td>
-						<td><%= account.lastModified ? moment(account.lastModified).add(10, "day").format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.lastModified ? moment(account.lastModified).businessAdd(10).format("MM/DD/YYYY") : "" %></td>
 					</tr>
 				<% }) %>
 			</tbody>
@@ -166,7 +213,31 @@
 		$(".clickable-row").on("click", function() {
 			window.location.href = $(this).data("href");
 		});
+
+		$(".ui.accordion")
+			.accordion({
+				onOpening: function() {
+					$("#index-right-menu").transition({
+						animation: "scale",
+						duration: 120,
+						onComplete: function() {
+							$(this).hide();
+						}
+					});
+				},
+				onClose: function() {
+					$("#index-right-menu").transition({
+						animation: "scale",
+						duration: 400,
+						onComplete: function() {
+							$(this).show();
+						}
+					});
+				}
+			})
+		;
+
+		$("select.dropdown").dropdown();
 	})
 </script>
-
 <% include ../partials/footer %>
