@@ -38,7 +38,7 @@ router.post("/register", isLoggedIn, isAdmin, function(req, res) {
 			return res.redirect("/register");
 		}
 		req.flash("success", "Registration completed for new user.");
-		res.redirect("/accounts");
+		res.redirect("/forgot");
 	});
 });
 
