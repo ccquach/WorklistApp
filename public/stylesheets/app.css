@@ -90,19 +90,12 @@ input.delete,
 /* ======================== */
 /* Auth Forms 				*/
 /* ======================== */
-#login, 
-#register,
-#forgot,
-#reset {
+.container.main.auth-form {
 	margin: 7.0em;
 	text-align: center;
 	width: 30%;
 }
-
-#login .ui.button,
-#register .ui.button,
-#forgot .ui.button,
-#reset .ui.button {
+.auth-form .ui.button {
 	display: block;
 	width: 100%;
 	margin-bottom: 8px;
