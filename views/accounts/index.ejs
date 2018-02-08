@@ -19,12 +19,12 @@
 					<form class="ui form transition visible" action="/accounts" method="GET">
 						<div class="four fields">
 							<!-- Cycle -->
-							<div class="field">
+							<div class="two wide field">
 								<label>Cycle</label>
 								<input type="number" step="1" name="cycle" autofocus>
 							</div>
 							<!-- Type -->
-							<div class="field">
+							<div class="four wide field">
 								<label>Type</label>
 								<select class="ui fluid dropdown" name="type">
 									<% var types = ["", "Commercial", "Medicare", "Agency", "Resolved"] %>
@@ -34,7 +34,7 @@
 								</select>
 							</div>
 							<!-- Status -->
-							<div class="field">
+							<div class="six wide field">
 								<label>Status</label>
 								<select class="ui fluid dropdown" name="status">
 									<% var statuses = ["", "Appeal Denied", "Appeal in Process", "Assign to Legal", "Pending Appeal Status", "Pending Baby Balance Transfer", "Pending CIF Retraction", "Pending Commercial Recoupment", "Pending Hardcopy RA", "Pending HMS Refund", "Pending HMS Retraction", "Pending Primary Payment", "Pending Secondary Payment", "Pending Underpayment", "Secondary Claim Denied", "Other"]; %>
@@ -44,7 +44,7 @@
 								</select>
 							</div>
 							<!-- Follow-up Date -->
-							<div class="field">
+							<div class="four wide field">
 								<label>Follow-up Date</label>
 								<input type="date" name="followup">
 							</div>
