@@ -18,7 +18,7 @@ router.get("/", function(req, res) {
 // ============================
 // show registration form
 router.get("/register", isLoggedIn, isAdmin, function(req, res) {
-	res.render("register", { page: "register" });
+	res.render("users/register", { page: "register" });
 });
 
 // handle sign up logic
@@ -44,7 +44,7 @@ router.post("/register", isLoggedIn, isAdmin, function(req, res) {
 
 // show login form
 router.get("/login", function(req, res) {
-	res.render("login", { page: "login" });
+	res.render("users/login", { page: "login" });
 });
 
 router.post("/login", function(req, res, next) {
@@ -75,7 +75,7 @@ router.get("/logout", function(req, res) {
 // PASSWORD RESET ROUTES
 // ============================
 router.get("/forgot", function(req, res) {
-	res.render("forgot");
+	res.render("users/forgot");
 });
 
 router.post("/forgot", function(req, res, next) {
@@ -146,7 +146,7 @@ router.get("/reset/:token", function(req, res) {
 			req.flash("error", "Password reset token is invalid or has expired.");
 			return res.redirect("/forgot");
 		}
-		res.render("reset", { token: req.params.token });
+		res.render("users/reset", { token: req.params.token });
 	});
 });
 
