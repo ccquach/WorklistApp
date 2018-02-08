@@ -78,10 +78,20 @@ app.use("/accounts", accountRoutes);
 app.use("/accounts/:id/comments", commentRoutes);
 app.use("/accounts/:id/logs", logRoutes);
 
+app.get("/500", function(req, res, next) {
+	next(new Error("keyboard cat!"));
+});
+
 // 404 Not Found routes
 app.get("*", function(req, res) {
 	var url = req.protocol + "://" + req.get("host") + req.url;
-	req.flash("info", "Cannot find " + url);
+	req.flash("error", "Cannot find " + url);
+	res.redirect("/accounts");
+});
+
+// 500 Internal Server Error
+app.use(function(err, req, res, next) {
+	req.flash("error", (err.status || 500) + " Internal Server Error: Please try again later.");
 	res.redirect("/accounts");
 });
 
