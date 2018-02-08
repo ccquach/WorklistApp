@@ -52,7 +52,7 @@
 			<h4 class="ui dividing header">Account Status</h4>
 			<div class="field">
 				<label>Type</label>
-				<select name="account[type]" required>
+				<select class="ui fluid search selection dropdown" name="account[type]" required>
 					<% var types = ["Commercial", "Medicare", "Agency", "Resolved"]; %>
 					<% types.forEach(function(type) { %>
 						<option value="<%= type %>" <%= types.indexOf(type) === 0 ? "selected" : "" %>><%= type %></option>
@@ -61,7 +61,7 @@
 			</div>
 			<div class="field">
 				<label>Status</label>
-				<select name="account[status]" required>
+				<select class="ui fluid search selection dropdown" name="account[status]" required>
 					<% var statuses = ["Appeal Denied", "Appeal in Process", "Assign to Legal", "Pending Appeal Status", "Pending Baby Balance Transfer", "Pending CIF Retraction", "Pending Commercial Recoupment", "Pending Hardcopy RA", "Pending HMS Refund", "Pending HMS Retraction", "Pending Primary Payment", "Pending Secondary Payment", "Pending Underpayment", "Secondary Claim Denied", "Other"]; %>
 					<% statuses.forEach(function(status) { %>
 						<option value="<%= status %>" <%= statuses.indexOf(status) === 0 ? "selected" : "" %>><%= status %></option>
@@ -76,7 +76,7 @@
 			<div class="two fields">
 				<div class="field">
 					<label>Financial Class</label>
-					<select name="account[commercial][fc]">
+					<select class="ui fluid search selection dropdown" name="account[commercial][fc]">
 						<% var fcs = ["", "GD", "HF", "RC", "SY"]; %>
 						<% fcs.forEach(function(fc) { %>
 							<option value="<%= fc %>" <%= fcs.indexOf(fc) === 0 ? "selected" : "" %>><%= fc %></option>
@@ -88,26 +88,28 @@
 					<input type="text" name="account[commercial][payer]" placeholder="Blue Shield">
 				</div>
 			</div>
-			<div class="two fields">
+			<div class="field">
+				<label>Insured Id</label>
+				<input type="text" name="account[commercial][insuredId]" placeholder="R1234567890">
+			</div>
+			<div class="inline fields">
+				<label>Eligible?:</label>
 				<div class="field">
-					<label>Insured Id</label>
-					<input type="text" name="account[commercial][insuredId]" placeholder="R1234567890">
-				</div>
-				<div class="field">
-					<label>Eligibility</label>
-					<span>
+					<div class="ui radio checkbox">
 						<input type="radio" name="account[commercial][isEligible]" value="true">
 						<label>Yes</label>
-					</span>
-					<span>
+					</div>
+				</div>
+				<div class="field">
+					<div class="ui radio checkbox">
 						<input type="radio" name="account[commercial][isEligible]" value="false">
 						<label>No</label>
-					</span>
+					</div>
 				</div>
 			</div>
 			<div class="field">
 				<label>Status</label>
-				<select name="account[commercial][status]">
+				<select class="ui fluid search selection dropdown" name="account[commercial][status]">
 					<% var statuses = ["", "Appeal Denied", "Billed", "Denied", "Paid", "Payment Included in Other Services", "Assigned to Legal", "No Expected Reimbursement"]; %>
 					<% statuses.forEach(function(status) { %>
 						<option value="<%= status %>" <%= statuses.indexOf(status) === 0 ? "selected" : "" %>><%= status %></option>
@@ -187,4 +189,11 @@
 	</form>
 </div>
 
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("select.dropdown").dropdown({
+			placeholder: "Select one"
+		});
+	});
+</script>
 <% include ../partials/footer %>
