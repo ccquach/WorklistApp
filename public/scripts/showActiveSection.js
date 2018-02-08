@@ -1,20 +1,9 @@
 $(document).ready(function() {
-	// collapsible comment box
-	$(".ui.accordion")
-		.accordion()
-		.accordion({ "exclusive": false })
-	;
-
-	// delete confirmation
-	$("#delete-modal.ui.modal").modal("attach events", ".delete-modal", "show");
-	$(".ok.button").on("click", function() {
-		$(this).find("form").submit();
-	});
-
-	// section navigation
+	// hide sections
 	$("#commercial-section").hide();
 	$("#medical-section").hide();
 	$("#log-section").hide();
+	// show selected section
 	showActiveSection();
 });
 
