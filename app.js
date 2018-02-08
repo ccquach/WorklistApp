@@ -78,6 +78,13 @@ app.use("/accounts", accountRoutes);
 app.use("/accounts/:id/comments", commentRoutes);
 app.use("/accounts/:id/logs", logRoutes);
 
+// 404 Not Found routes
+app.get("*", function(req, res) {
+	var url = req.protocol + "://" + req.get("host") + req.url;
+	req.flash("info", "Cannot find " + url);
+	res.redirect("/accounts");
+});
+
 app.listen(3000, function() {
 	console.log("Serving Worklist Application on port 3000");
 });
