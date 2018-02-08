@@ -125,6 +125,10 @@ router.post("/forgot", function(req, res, next) {
 			};
 			// send email
 			smtpTransport.sendMail(mailOptions, function(err) {
+				if(err) {
+					req.flash("error", "Failed to send password reset email.");
+					return res.redirect("/forgot");
+				}
 				console.log("Password reset email sent to " + user.email);
 				req.flash("success", "An e-mail has been sent to " + user.email + " with further instructions.");
 				done(err, "done");
@@ -192,6 +196,10 @@ router.post("/reset/:token", function(req, res) {
 			};
 			// send email
 			smtpTransport.sendMail(mailOptions, function(err) {
+				if(err) {
+					req.flash("error", "Failed to send password reset confirmation email.");
+					return res.redirect("/forgot");
+				}
 				console.log("Password reset confirmation email sent to " + user.email);
 				req.flash("success", "Your password has been changed.");
 				done(err);
