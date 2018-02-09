@@ -69,15 +69,15 @@
 					</tr>
 					<tr>
 						<td>DOB</td>
-						<td><%= account.dob ? moment(account.dob).format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.dob ? moment(account.dob).tz("GMT").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Admit</td>
-						<td><%= account.admit ? moment(account.admit).format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.admit ? moment(account.admit).tz("GMT").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Discharge</td>
-						<td><%= account.discharge ? moment(account.discharge).format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.discharge ? moment(account.discharge).tz("GMT").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Total Charges</td>
@@ -143,7 +143,7 @@
 					</tr>
 					<tr>
 						<td>Billed Date</td>
-						<td><%= account.commercial.billedDate ? moment(account.commercial.billedDate).format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.commercial.billedDate ? moment(account.commercial.billedDate).tz("GMT").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Expected Reimbursement</td>
@@ -151,7 +151,7 @@
 					</tr>
 					<tr>
 						<td>Payment Date</td>
-						<td><%= account.commercial.paidOn ? moment(account.commercial.paidOn).format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.commercial.paidOn ? moment(account.commercial.paidOn).tz("GMT").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Payment Amount</td>
@@ -179,11 +179,11 @@
 					</tr>
 					<tr>
 						<td>HMS Issue Date</td>
-						<td><%= account.mcal.hmsIssueDate ? moment(account.mcal.hmsIssueDate).format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.mcal.hmsIssueDate ? moment(account.mcal.hmsIssueDate).tz("GMT").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>HMS Close Date</td>
-						<td><%= account.mcal.hmsCloseDate ? moment(account.mcal.hmsCloseDate).format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.mcal.hmsCloseDate ? moment(account.mcal.hmsCloseDate).tz("GMT").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>AR Trans Number</td>
@@ -191,7 +191,7 @@
 					</tr>
 					<tr>
 						<td>Retraction RA Date</td>
-						<td><%= account.mcal.retractionDate ? moment(account.mcal.retractionDate).format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.mcal.retractionDate ? moment(account.mcal.retractionDate).tz("GMT").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>Recoupment Amount</td>
@@ -199,7 +199,7 @@
 					</tr>
 					<tr>
 						<td>CIF Date</td>
-						<td><%= account.mcal.cifDate ? moment(account.mcal.cifDate).format("MM/DD/YYYY") : "" %></td>
+						<td><%= account.mcal.cifDate ? moment(account.mcal.cifDate).tz("GMT").format("MM/DD/YYYY") : "" %></td>
 					</tr>
 					<tr>
 						<td>CIF Amount</td>
@@ -386,7 +386,7 @@
 						<% logs.forEach(function(log) { %>
 							<div class="title">
 								<i class="dropdown icon"></i>
-								<%= moment(log.createdAt).format("YYYY-MM-DD") %> by <%= log.author.username %>
+								<%= moment(log.createdAt).tz("GMT").format("YYYY-MM-DD") %> by <%= log.author.username %>
 							</div>
 							<div class=content>
 								<!-- Log Edit button -->
