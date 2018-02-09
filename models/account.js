@@ -1,5 +1,4 @@
 var mongoose = require("mongoose");
-var uniqueValidator = require("mongoose-unique-validator");
 
 var accountSchema = new mongoose.Schema({
 	facility: String,
@@ -57,7 +56,5 @@ var accountSchema = new mongoose.Schema({
 	},
 	createdAt: { type: Date, default: Date.now }
 });
-
-accountSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("Account", accountSchema);
