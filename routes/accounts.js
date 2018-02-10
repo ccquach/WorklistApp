@@ -184,8 +184,7 @@ router.get("/export", function(req, res) {
 		json2csv({ 
 			data: accounts, 
 			fields: fields, 
-			fieldNames: fieldNames,
-			quotes: ""
+			fieldNames: fieldNames
 		}, function(err, csv) {
 			if(err) {
 				req.flash("err", "Export failed.");
