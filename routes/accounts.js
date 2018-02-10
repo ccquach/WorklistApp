@@ -1,8 +1,12 @@
 var express = require("express");
 var router = express.Router();
 var Account = require("../models/account");
-var middleware = require("../middleware");
 var moment = require("moment-business-days");
+var json2csv = require("json2csv");
+// var fs = require("fs");
+const os = require("os");
+const path = require("path");
+var middleware = require("../middleware");
 const { isLoggedIn, checkAccountOwnership } = middleware;
 
 // INDEX ROUTE
@@ -86,7 +90,7 @@ router.post("/", isLoggedIn, function(req, res) {
 		username: req.user.username
 	};
 	// Check if account number already exists
-	Account.findOne({ "facility": req.session.facility, "number": req.body.account.number }, function(err, foundAccount) {
+	Account.findOne({ facility: req.session.facility, number: req.body.account.number }, function(err, foundAccount) {
 		// If account does not exist
 		if(err || !foundAccount) {
 			// Create new account
@@ -107,6 +111,96 @@ router.post("/", isLoggedIn, function(req, res) {
 		}
 	});
 	
+});
+
+// CSV EXPORT ROUTE
+router.get("/export", function(req, res) {
+	const facility = req.session.facility;
+	Account.find({ facility: facility }).exec(function(err, accounts) {
+		if(err) {
+			req.flash("error", "Unable to find accounts.");
+			return res.redirect("/accounts");
+		}
+		var fields = [
+			"mcal.cycle",
+			"mcal.hmsIssueDate",
+			"mcal.hmsCloseDate",
+			"type",
+			"number",
+			"lastName",
+			"firstName",
+			"dob",
+			"admit",
+			"discharge",
+			"charges",
+			"balance",
+			"status",
+			"commercial.fc",
+			"commercial.payer",
+			"commercial.insuredId",
+			"commercial.isEligible",
+			"commercial.billedDate",
+			"commercial.expected",
+			"commercial.paidOn",
+			"commercial.reim",
+			"commercial.soc",
+			"commercial.status",
+			"mcal.arTrans",
+			"mcal.retractionDate",
+			"mcal.recoup",
+			"mcal.cifDate",
+			"mcal.cifAmount"
+		];
+		var fieldNames = [
+			"Cycle",
+			"HMS Issue Date",
+			"HMS Close Date",
+			"Type",
+			"Account",
+			"Last Name",
+			"First Name",
+			"DOB",
+			"Admit",
+			"Disch",
+			"Total Charges",
+			"AR Balance",
+			"Acct Status",
+			"FC",
+			"Payer",
+			"Insured Id",
+			"Eligible?",
+			"Billed Date",
+			"Expected Reim",
+			"Reim Date",
+			"Reim Amt",
+			"Pt Liab",
+			"Commercial Status",
+			"AR Trans",
+			"Retraction Date",
+			"Recoup Amt",
+			"CIF Date",
+			"CIF Amt"
+		];
+		json2csv({ 
+			data: accounts, 
+			fields: fields, 
+			fieldNames: fieldNames,
+			quotes: ""
+		}, function(err, csv) {
+			if(err) {
+				req.flash("err", "Export failed.");
+				return res.redirect("/accounts");
+			}
+			const filename = facility.toLowerCase() + moment(Date.now()).format("YYYYMMDDhhmmss") + ".csv"
+			var filepath = path.join(os.homedir(), "Desktop", filename);
+			res.attachment(filepath);
+			res.set({
+				"Content-Type": "text/csv",
+				"Content-Disposition": "attachment; filename=" + filename
+			});
+			res.send(csv);
+		});
+	});
 });
 
 // SHOW ROUTE

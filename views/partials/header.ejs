@@ -72,6 +72,12 @@
 					<i class="home icon"></i>
 					Home
 				</a>
+				<% if(sess.facility) { %>
+					<a class="ui item" href="/accounts/export">
+						<i class="download icon"></i>
+						Export Accounts
+					</a>
+				<% } %>
 
 				<div class="right menu">
 					<% if(!currentUser) { %>

@@ -11,7 +11,6 @@ var expressSanitizer 	= require("express-sanitizer"),
 	passport 			= require("passport"),
 	LocalStrategy 		= require("passport-local"),
 	seedDB				= require("./seeds"),
-	numeral				= require("numeral"),
 	moment				= require("moment-business-days"),
 	momentTz			= require("moment-timezone"),
 	app 				= express();
@@ -40,8 +39,8 @@ app.use(expressSanitizer());
 app.use(methodOverride("_method"));
 app.use(flash());
 app.locals = {
-	numeral: numeral,
-	moment: moment
+	moment: moment,
+	numeral: require("numeral")
 };
 // seedDB();  //seed the database
 
