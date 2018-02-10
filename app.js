@@ -8,6 +8,7 @@ var expressSanitizer 	= require("express-sanitizer"),
 	MongoStore			= require("connect-mongo")(session),
 	back				= require("express-back"),
 	flash				= require("connect-flash"),
+	favicon				= require("serve-favicon"),
 	passport 			= require("passport"),
 	LocalStrategy 		= require("passport-local"),
 	seedDB				= require("./seeds"),
@@ -42,6 +43,7 @@ app.locals = {
 	moment: moment,
 	numeral: require("numeral")
 };
+app.use(favicon(__dirname + "/public/images/logo.ico"));
 // seedDB();  //seed the database
 
 // PASSPORT CONFIGURATION
