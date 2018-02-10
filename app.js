@@ -32,7 +32,21 @@ var indexRoutes 		= require("./routes/index"),
 	logRoutes			= require("./routes/logs");
 
 // APP CONFIGURATION
-mongoose.connect("mongodb://127.0.0.1/worklist_app");
+mongoose.Promise = global.Promise;
+const databaseUri = "mongodb://127.0.0.1/worklist_app";
+const databaseOptions = {
+	user: process.env.DB_USER,
+	pass: process.env.DB_PWD,
+	auth: {
+		authdb: "admin"
+	}
+};
+mongoose.connect(databaseUri, databaseOptions)
+	.then(() => console.log(`Database connected`))
+	.catch(err => console.log(`Database connection error: ${err.message}`))
+;
+mongoose.set("debug", true);
+
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({ extended: true }));
