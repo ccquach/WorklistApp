@@ -1,5 +1,6 @@
 *.env
 *.bat
+*.docx
 node_modules/
 lib/
 images/
