@@ -33,7 +33,7 @@ var indexRoutes 		= require("./routes/index"),
 
 // APP CONFIGURATION
 mongoose.Promise = global.Promise;
-const databaseUri = "mongodb://127.0.0.1/worklist_app";
+const databaseUri = process.env.DB_URL || "mongodb://127.0.0.1/worklist_app";
 const databaseOptions = {
 	user: process.env.DB_USER,
 	pass: process.env.DB_PWD,
@@ -111,6 +111,6 @@ app.use(function(err, req, res, next) {
 	res.redirect("/accounts");
 });
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
 	console.log("Serving Worklist Application on port 3000");
 });
