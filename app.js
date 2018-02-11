@@ -94,10 +94,6 @@ app.use("/accounts", accountRoutes);
 app.use("/accounts/:id/comments", commentRoutes);
 app.use("/accounts/:id/logs", logRoutes);
 
-app.get("/500", function(req, res, next) {
-	next(new Error("keyboard cat!"));
-});
-
 // 404 Not Found routes
 app.get("*", function(req, res) {
 	var url = req.protocol + "://" + req.get("host") + req.url;
