@@ -165,9 +165,7 @@ router.post("/reset/:token", function(req, res) {
 						user.resetPasswordExpires = undefined;
 
 						user.save(function(err) {
-							req.logIn(user, function(err) {
-								done(err, user);
-							});
+							done(err, user);
 						});
 					});
 				} else {
@@ -207,7 +205,7 @@ router.post("/reset/:token", function(req, res) {
 		}
 	], function(err) {
 		if(err) return next(err);
-		res.redirect("/accounts");
+		res.redirect("/login");
 	});
 });
 
