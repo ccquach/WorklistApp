@@ -3,11 +3,12 @@
 <div class="ui main text container">
 	<div class="ui huge header">Edit Account</div>
 	<form class="ui form" action="/accounts/<%= account._id %>?_method=PUT" method="POST">
+		<span class="right-float">* Required</span>
 		<!-- PATIENT DETAILS -->
 		<h4 class="ui dividing header">Patient Details</h4>
 		<div class="ui segment">
 			<div class="field">
-				<label>Account #</label>
+				<label>Account # *</label>
 				<input autofocus type="text" name="account[number]" value="<%= account.number %>" maxlength="8" required>
 			</div>
 			<div class="field">
@@ -51,7 +52,7 @@
 
 			<h4 class="ui dividing header">Account Status</h4>
 			<div class="field">
-				<label>Type</label>
+				<label>Type *</label>
 				<select class="ui fluid search selection dropdown" name="account[type]" required>
 					<% var types = ["Commercial", "Medicare", "Agency", "Resolved"] %>
 					<% types.forEach(function(type) { %>
@@ -60,7 +61,7 @@
 				</select>
 			</div>
 			<div class="field">
-				<label>Status</label>
+				<label>Status *</label>
 				<select class="ui fluid search selection dropdown" name="account[status]" required>
 					<% var statuses = ["Appeal Denied", "Appeal in Process", "Assign to Legal", "Pending Appeal Status", "Pending Baby Balance Transfer", "Pending CIF Retraction", "Pending Commercial Recoupment", "Pending Hardcopy RA", "Pending HMS Refund", "Pending HMS Retraction", "Pending Primary Payment", "Pending Secondary Payment", "Pending Underpayment", "Secondary Claim Denied", "Other"]; %>
 					<% statuses.forEach(function(status) { %>
