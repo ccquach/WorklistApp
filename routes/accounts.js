@@ -104,13 +104,12 @@ router.post("/", isLoggedIn, function(req, res) {
 					res.redirect("/accounts");
 				}
 			});
-		// If account exists, display message notifying user
+		// If account exists, display message to user
 		} else {
 			req.flash("error", "Account # " + req.body.account.number + " already exists!");
 			res.back();
 		}
 	});
-	
 });
 
 // CSV EXPORT ROUTE
