@@ -67,7 +67,7 @@ app.use(session({
 	saveUninitialized: false,
 	store: new MongoStore({	
 		mongooseConnection: mongoose.connection,
-		ttl: 8 * 60 // = 8 hours.
+		ttl: 8 * 60 * 60 // = 8 hours.
 	})
 }));
 app.use(back());
