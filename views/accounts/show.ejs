@@ -282,10 +282,12 @@
 												<!-- created at -->
 												<div class="metadata">
 													<span class="date"><%= moment(comment.createdAt).fromNow() %></span>
+													<i class="copy icon" title="select text to copy to clipboard"></i>
 												</div>
 												<!-- content -->
 												<div class="text">
-													<p><%= comment.content %></p>
+													<span class="copy-target"><%= comment.content %></span>
+													<span class="ui yellow label hide">Copied</span>
 												</div>
 												<!-- edit button -->
 												<% if(currentUser && currentUser.isAdmin) { %>
@@ -433,7 +435,7 @@
 											<td><%= log.note %></td>
 										</tr>
 										<tr>
-											<td>CPSI <i class="copy icon right-float" title="click text to copy to clipboard"></i></td>
+											<td>CPSI <i class="copy icon right-float" title="select text to copy to clipboard"></i></td>
 											<td>
 												<span class="copy-target">CALLED <%= log.payer.name.toUpperCase() %> AT <%= log.payer.phone.toUpperCase() %>. SPK W/ <%= log.payer.rep.toUpperCase() %>, CALL REF# <%= log.payer.ref.toUpperCase() %>. <% if(log.note && log.note.length > 0) { %>PER REP, <%= log.note.toUpperCase() %><% } %> -<%= log.author.username.toUpperCase() %></span>
 												<span class="ui yellow label hide">Copied</span>
