@@ -11,7 +11,11 @@ $(document).ready(function() {
 	;
 
 	// delete confirmation
-	$("#delete-modal.ui.modal").modal("attach events", ".delete-modal", "show");
+	$(".delete-modal-button").each(function() {
+		var id = $(this).attr("id");
+		var modal = $(this).siblings("div");
+		modal.modal("attach events", "#" + id, "show");
+	});
 	$(".ok.button").on("click", function() {
 		$(this).find("form").submit();
 	});

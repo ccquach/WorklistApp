@@ -28,12 +28,11 @@
 					<!-- Delete -->
 					<div class="item">
 						<!-- Delete Account modal toggle -->
-						<a class="delete-modal" data-tooltip="Delete" data-position="top center">
+						<a id="modal-button-<%= account._id %>" class="delete-modal-button" data-tooltip="Delete" data-position="top center">
 							<i class="trash link icon"></i>
 						</a>
 						<!-- Delete Account Confirmation modal -->
-						<% var deleteRoute = "/accounts/" + account._id %>
-						<% include ./partials/delete %>
+						<%- include("./partials/delete", { deleteRoute: "/accounts/" + account._id }); %>
 					</div>
 				<% } %>
 			</div>
@@ -325,13 +324,12 @@
 											<div class="three wide column">
 												<% if(currentUser && currentUser.isAdmin) { %>
 													<!-- Delete Comment modal toggle -->
-													<button class="ui mini right floated negative labeled icon button delete delete-modal">
+													<button id="modal-button-<%= comment._id %>" class="ui mini right floated negative labeled icon button delete delete-modal-button">
 														<i class="trash outline icon"></i>
 														Delete
 													</button>
 													<!-- Delete Comment Confirmation modal -->
-													<% var deleteRoute = "/accounts/" + account._id + "/comments/" + comment._id %>
-													<% include ./partials/delete %>
+													<%- include("./partials/delete", { deleteRoute: "/accounts/" + account._id + "/comments/" + comment._id }); %>
 												<% } %>
 											</div>
 										</div>  <!-- comment fluid grid -->
@@ -400,13 +398,12 @@
 								<% } %>
 								<!-- Log Delete button -->
 								<% if(currentUser && currentUser.isAdmin) { %>
-									<button class="ui mini negative labeled icon button delete delete-modal">
+									<button id="modal-button-<%= log._id %>" class="ui mini negative labeled icon button delete delete-modal-button">
 										<i class="trash outline icon"></i>
 										Delete
 									</button>
 									<!-- Log Delete modal -->
-									<% var deleteRoute = "/accounts/" + account._id + "/logs/" + log._id %>
-									<% include ./partials/delete %>
+									<%- include("./partials/delete", { deleteRoute: "/accounts/" + account._id + "/logs/" + log._id }); %>
 								<% } %>
 								<table class="ui green definition table">
 									<tbody>
