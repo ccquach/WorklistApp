@@ -31,6 +31,10 @@ var indexRoutes 		= require("./routes/index"),
 	commentRoutes 		= require("./routes/comments"),
 	logRoutes			= require("./routes/logs");
 
+// WINSTON CONFIGURATION
+const Winston = require("./logger/WinstonPlugin.js");
+const queryLogger = Winston.loggers.get("queryLogger");
+
 // APP CONFIGURATION
 mongoose.Promise = global.Promise;
 const databaseUri = process.env.DB_URL || "mongodb://127.0.0.1/worklist_app";
@@ -45,7 +49,9 @@ mongoose.connect(databaseUri, databaseOptions)
 	.then(() => console.log(`Database connected`))
 	.catch(err => console.log(`Database connection error: ${err.message}`))
 ;
-mongoose.set("debug", true);
+mongoose.set("debug", function(collectionName, method, query, doc) {
+	queryLogger.debug(`Mongoose: ${ collectionName }.${ method }(${ JSON.stringify(query) }, ${ JSON.stringify(doc) })`);
+});
 
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
@@ -103,6 +109,7 @@ app.get("*", function(req, res) {
 
 // 500 Internal Server Error
 app.use(function(err, req, res, next) {
+	console.log(err.message);
 	req.flash("error", (err.status || 500) + " Internal Server Error: Please try again later.");
 	res.redirect("/accounts");
 });
