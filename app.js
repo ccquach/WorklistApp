@@ -32,7 +32,7 @@ var indexRoutes 		= require("./routes/index"),
 	logRoutes			= require("./routes/logs");
 
 // WINSTON CONFIGURATION
-const Winston = require("./logger/WinstonPlugin.js");
+var Winston = require("./logger/WinstonPlugin.js");
 const queryLogger = Winston.loggers.get("queryLogger");
 
 // APP CONFIGURATION
