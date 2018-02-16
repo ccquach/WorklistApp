@@ -32,7 +32,8 @@ Winston.loggers.add("errorLogger", {
 		new(WinstonRotateFile) ({
 			filename: `${errorLogDir}/-error.log`,
 			prepend: true,
-			datePattern: "yyyy-MM-dd-HH",		
+			datePattern: "yyyy-MM-dd-HH",
+			localTime: true,		
 			level: "error",
 			timestamp: tsFormat,
 			json: false
@@ -44,7 +45,8 @@ Winston.loggers.add("queryLogger", {
 		new(WinstonRotateFile) ({
 			filename: `${queryLogDir}/-query.log`,	
 			prepend: true,
-			datePattern: "yyyy-MM-dd-HH",		
+			datePattern: "yyyy-MM-dd-HH",
+			localTime: true,		
 			level: "debug",
 			timestamp: tsFormat,
 			json: false
@@ -56,7 +58,8 @@ Winston.loggers.add("userLogger", {
 		new(WinstonRotateFile) ({
 			filename: `${userLogDir}/-user.log`,	
 			prepend: true,
-			datePattern: "yyyy-MM-dd-HH",		
+			datePattern: "yyyy-MM-dd-HH",
+			localTime: true,		
 			level: "info",
 			timestamp: tsFormat,
 			json: false
