@@ -6,8 +6,9 @@ var middleware = require("../middleware");
 const { isLoggedIn, isAdmin } = middleware;
 
 // Winston logger
-var Winston = require("../logger/WinstonPlugin.js")
+var Winston = require("../logger/WinstonPlugin.js");
 const errorLogger = Winston.loggers.get("errorLogger");
+const queryLogger = Winston.loggers.get("queryLogger");
 
 // Comments new
 router.get("/new", isLoggedIn, function(req, res) {
@@ -49,6 +50,7 @@ router.post("/", isLoggedIn, function(req, res) {
 					account.lastModified = Date.now();
 					account.save();
 					// Redirect to account show page
+					queryLogger.debug(`Comment Create Success: { username: ${ req.user.username } }\n\t${ comment }`);
 					req.flash("success", "Successfully added new comment.");
 					res.redirect("/accounts/" + req.params.id);
 				}
@@ -78,13 +80,19 @@ router.get("/:comment_id/edit", isLoggedIn, isAdmin, function(req, res) {
 
 // Comment update
 router.put("/:comment_id", isLoggedIn, isAdmin, function(req, res) {
+	// debug to query logger update attempt
+	Comment.findById(req.params.comment_id, function(err, foundComment) {
+		queryLogger.debug(`Comment Update Attempt: { username: ${ req.user.username } }\n\t${ foundComment }`);
+	});
+
 	req.body.comment.content = req.sanitize(req.body.comment.content);
-	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
+	Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, { new: true }, function(err, updatedComment) {
 		if(err) {
 			errorLogger.error(`Comment Update Failure:\n\t${ err }`);
 			req.flash("error", "Failed to update comment.");
 			res.back();
 		} else {
+			queryLogger.debug(`Comment Update Success: { username: ${ req.user.username } }\n\t${ updatedComment }`);
 			req.flash("success", "Successfully updated comment.");
 			res.redirect("/accounts/" + req.params.id);
 		}
@@ -93,6 +101,11 @@ router.put("/:comment_id", isLoggedIn, isAdmin, function(req, res) {
 
 // Comment destroy
 router.delete("/:comment_id", isLoggedIn, isAdmin, function(req, res) {
+	// debug to query logger delete attempt
+	Comment.findById(req.params.comment_id, function(err, foundComment) {
+		queryLogger.debug(`Comment Delete Attempt: { username: ${ req.user.username } }\n\t${ foundComment }`);
+	});
+
 	// find account
 	Account.findByIdAndUpdate(req.params.id, {
 		// remove comment from comments array
@@ -112,6 +125,7 @@ router.delete("/:comment_id", isLoggedIn, isAdmin, function(req, res) {
 					req.flash("error", "Failed to delete comment.");
 					res.back();
 				} else {
+					queryLogger.debug(`Comment Delete Success: { username: ${ req.user.username } }`);
 					req.flash("success", "Successfully deleted comment.");
 					res.redirect("/accounts/" + req.params.id);
 				}

@@ -9,8 +9,9 @@ var middleware = require("../middleware");
 const { isLoggedIn, checkAccountOwnership } = middleware;
 
 // Winston logger
-var Winston = require("../logger/WinstonPlugin.js")
+var Winston = require("../logger/WinstonPlugin.js");
 const errorLogger = Winston.loggers.get("errorLogger");
+const queryLogger = Winston.loggers.get("queryLogger");
 
 // INDEX ROUTE
 router.get("/", isLoggedIn, function(req, res) {
@@ -105,6 +106,7 @@ router.post("/", isLoggedIn, function(req, res) {
 					req.flash("error", "Failed to create new account!");
 					res.redirect("/accounts/new");
 				} else {
+					queryLogger.debug(`Account Create Success: { username: ${ req.user.username } }\n\t${ newAccount }`);
 					req.flash("success", "Successfully created new account!")
 					res.redirect("/accounts");
 				}
@@ -224,18 +226,20 @@ router.get("/:id", isLoggedIn, function(req, res) {
 // EDIT ROUTE
 router.get("/:id/edit", isLoggedIn, checkAccountOwnership, function(req, res) {
 	Account.findById(req.params.id, function(err, foundAccount) {
+		queryLogger.debug(`Account Update Attempt: { username: ${ req.user.username } }\n\t${ foundAccount }`);
 		res.render("accounts/edit", { account: foundAccount });
 	});
 });
 
 // UPDATE ROUTE
-router.put("/:id",isLoggedIn, checkAccountOwnership, function(req, res) {
-	Account.findByIdAndUpdate(req.params.id, req.body.account, function(err, updatedAccount) {
+router.put("/:id", isLoggedIn, checkAccountOwnership, function(req, res) {
+	Account.findByIdAndUpdate(req.params.id, req.body.account, { new: true }, function(err, updatedAccount) {
 		if(err) {
 			errorLogger.error(`Account Update Failure:\n\t${ err }`);
 			req.flash("error", "Failed to update account.");
 			res.back();
 		} else {
+			queryLogger.debug(`Account Update Success: { username: ${ req.user.username } }\n\t${ updatedAccount }`);
 			req.flash("success", "Successfully updated account.");
 			res.redirect("/accounts/" + req.params.id);
 		}
@@ -244,12 +248,18 @@ router.put("/:id",isLoggedIn, checkAccountOwnership, function(req, res) {
 
 // DELETE ROUTE
 router.delete("/:id", isLoggedIn, checkAccountOwnership, function(req, res) {
+	// debug to query logger delete attempt
+	Account.findById(req.params.id, function(err, foundAccount) {
+		queryLogger.debug(`Account Delete Attempt: { username: ${ req.user.username } }\n\t${ foundAccount }`);
+	});
+
 	Account.findByIdAndRemove(req.params.id, function(err) {
 		if(err) {
 			errorLogger.error(`Account Delete Failure:\n\t${ err }`);
 			req.flash("error", "Failed to delete account.");
 			res.back();
 		} else {
+			queryLogger.debug(`Account Delete Success: { username: ${ req.user.username } }`);
 			req.flash("success", "Successfully deleted account.");
 			res.redirect("/accounts");
 		}

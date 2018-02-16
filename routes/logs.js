@@ -6,8 +6,9 @@ var middleware = require("../middleware");
 const { isLoggedIn, isAdmin, checkLogOwnership } = middleware;
 
 // Winston logger
-var Winston = require("../logger/WinstonPlugin.js")
+var Winston = require("../logger/WinstonPlugin.js");
 const errorLogger = Winston.loggers.get("errorLogger");
+const queryLogger = Winston.loggers.get("queryLogger");
 
 // new log entry
 router.get("/new", isLoggedIn, function(req, res) {
@@ -49,6 +50,7 @@ router.post("/", isLoggedIn, function(req, res) {
 			account.lastModified = Date.now();
 			account.save();
 			// Redirect to account show page
+			queryLogger.debug(`Follow-up Create Success: { username: ${ req.user.username } }\n\t${ log }`);
 			req.flash("success", "Successfully added new follow-up to communication log.");
 			res.redirect("/accounts/" + req.params.id);
 		});
@@ -69,6 +71,7 @@ router.get("/:log_id/edit", isLoggedIn, checkLogOwnership, function(req, res) {
 				req.flash("error", "Unable to find follow-up log entry.");
 				return res.back();
 			}
+			queryLogger.debug(`Follow-up Update Attempt: { username: ${ req.user.username } }\n\t${ foundLog }`);
 			res.render("logs/edit", { account: foundAccount, log: foundLog });
 		});
 	});
@@ -77,12 +80,13 @@ router.get("/:log_id/edit", isLoggedIn, checkLogOwnership, function(req, res) {
 // update log entry
 router.put("/:log_id", isLoggedIn, checkLogOwnership, function(req, res) {
 	req.body.log.note = req.sanitize(req.body.log.note);
-	Log.findByIdAndUpdate(req.params.log_id, req.body.log, function(err, updatedLog) {
+	Log.findByIdAndUpdate(req.params.log_id, req.body.log, { new: true }, function(err, updatedLog) {
 		if(err) {
 			errorLogger.error(`Follow-up Log Update Failure:\n\t${ err }`);
 			req.flash("error", "Failed to update follow-up log entry.");
 			return res.back();
 		}
+		queryLogger.debug(`Follow-up Update Success: { username: ${ req.user.username } }\n\t${ updatedLog }`);
 		req.flash("success", "Successfully updated follow-up log entry!");
 		res.redirect("/accounts/" + req.params.id);
 	});
@@ -90,6 +94,11 @@ router.put("/:log_id", isLoggedIn, checkLogOwnership, function(req, res) {
 
 // destroy log entry
 router.delete("/:log_id", isLoggedIn, isAdmin, function(req, res) {
+	// debug to query logger delete attempt
+	Log.findById(req.params.log_id, function(err, foundLog) {
+		queryLogger.debug(`Follow-up Delete Attempt: { username: ${ req.user.username } }\n\t${ foundLog }`);
+	});
+
 	// remove log entry from account logs array
 	Account.findByIdAndUpdate(req.params.id, {
 		$pull: {
@@ -108,6 +117,7 @@ router.delete("/:log_id", isLoggedIn, isAdmin, function(req, res) {
 				req.flash("error", "Failed to delete follow-up log entry from database.");
 				res.back();
 			} else {
+				queryLogger.debug(`Follow-up Delete Success: { username: ${ req.user.username } }`);
 				req.flash("success", "Successfully deleted follow-up log entry!");
 				res.redirect("/accounts/" + req.params.id);
 			}
