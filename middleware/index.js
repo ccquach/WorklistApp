@@ -1,6 +1,10 @@
 var Account = require("../models/account");
 var Log = require("../models/log");
 
+// Winston logger
+var Winston = require("../logger/WinstonPlugin.js");
+const errorLogger = Winston.loggers.get("errorLogger");
+
 var middlewareObj = {};
 
 middlewareObj.isLoggedIn = function(req, res, next) {
@@ -23,7 +27,8 @@ middlewareObj.isAdmin = function(req, res, next) {
 middlewareObj.checkAccountOwnership = function(req, res, next) {
 	Account.findById(req.params.id, function(err, foundAccount) {
 		if(err || !foundAccount) {
-			req.flash("error", "Unable to find account. Please note the account number and contact support.");
+			errorLogger.error(`Account Not Found:\n\t${ err }`);
+			req.flash("error", "Unable to find account.");
 			res.back();
 		} else {
 			if(foundAccount.author.id.equals(req.user._id) || req.user.isAdmin) {
@@ -39,6 +44,7 @@ middlewareObj.checkAccountOwnership = function(req, res, next) {
 middlewareObj.checkLogOwnership = function(req, res, next) {
 	Log.findById(req.params.log_id, function(err, foundLog) {
 		if(err || !foundLog) {
+			errorLogger.error(`Follow-up Log Not Found:\n\t${ err }`);
 			req.flash("error", "Unable to find log entry.");
 			return res.back();
 		}

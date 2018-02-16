@@ -8,6 +8,7 @@ var crypto = require("crypto");
 var middleware = require("../middleware");
 const { isLoggedIn, isAdmin } = middleware;
 
+// Winston logger
 var Winston = require("../logger/WinstonPlugin.js");
 const userLogger = Winston.loggers.get("userLogger");
 
@@ -141,7 +142,6 @@ router.post("/forgot", function(req, res, next) {
 					req.flash("error", "Failed to send password reset email.");
 					return res.redirect("/forgot");
 				}
-				console.log("Password reset email sent to " + user.email);
 				userLogger.info(`Password Reset Request Email Success: { username: ${ user.username }, email: ${ user.email } }`);
 				req.flash("success", "An e-mail has been sent to " + user.email + " with further instructions.");
 				done(err, "done");
@@ -217,7 +217,6 @@ router.post("/reset/:token", function(req, res) {
 					return res.redirect("/forgot");
 				}
 				userLogger.info(`Password Reset Email Success: { username: ${ user.username }, email: ${ user.email } }`)
-				console.log("Password reset confirmation email sent to " + user.email);
 				req.flash("success", "Your password has been changed.");
 				done(err);
 			});

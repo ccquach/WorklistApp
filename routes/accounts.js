@@ -3,11 +3,14 @@ var router = express.Router();
 var Account = require("../models/account");
 var moment = require("moment-business-days");
 var json2csv = require("json2csv");
-// var fs = require("fs");
 const os = require("os");
 const path = require("path");
 var middleware = require("../middleware");
 const { isLoggedIn, checkAccountOwnership } = middleware;
+
+// Winston logger
+var Winston = require("../logger/WinstonPlugin.js")
+const errorLogger = Winston.loggers.get("errorLogger");
 
 // INDEX ROUTE
 router.get("/", isLoggedIn, function(req, res) {
@@ -51,12 +54,14 @@ router.get("/", isLoggedIn, function(req, res) {
 
 	Account.find(findObj).sort(sortObj).skip((perPage * pageNumber) - perPage).limit(perPage).exec(function(err, allAccounts) {
 		if(err) {
-			req.flash("error", "An error occurred while retrieving the accounts from the database.");
+			errorLogger.error(`Account Index Failure:\n\t${ err }`);
+			req.flash("error", "Unable to retrieve accounts from database.");
 			res.redirect("/");
 		} else {
 			Account.find(findObj).count().exec(function(err, count) {
 				if(err) {
-					req.flash("error", "An error occurred while retrieving the number of accounts stored in the database.");
+					errorLogger.error(`Account Index Pagination Failure:\n\t${ err }`);
+					req.flash("error", "Unable to get count of accounts for pagination.");
 					res.redirect("/");
 				} else {
 					res.render("accounts/index", {
@@ -96,11 +101,11 @@ router.post("/", isLoggedIn, function(req, res) {
 			// Create new account
 			Account.create(newAccount, function(err, newAccount) {
 				if(err) {
-					req.flash("error", "Failed to create new account: " + err.message);
+					errorLogger.error(`Account Create Failure:\n\t${ err }`);
+					req.flash("error", "Failed to create new account!");
 					res.redirect("/accounts/new");
 				} else {
-					console.log("=== NEW ===:\n" + newAccount);
-					req.flash("success", "Successfully created new account.")
+					req.flash("success", "Successfully created new account!")
 					res.redirect("/accounts");
 				}
 			});
@@ -117,6 +122,7 @@ router.get("/export", function(req, res) {
 	const facility = req.session.facility;
 	Account.find({ facility: facility }).exec(function(err, accounts) {
 		if(err) {
+			errorLogger.error(`Export Get Accounts Failure:\n\t${ err }`);
 			req.flash("error", "Unable to find accounts.");
 			return res.redirect("/accounts");
 		}
@@ -186,6 +192,7 @@ router.get("/export", function(req, res) {
 			fieldNames: fieldNames
 		}, function(err, csv) {
 			if(err) {
+				errorLogger.error(`Export to CSV Failure:\n\t${ err }`);
 				req.flash("err", "Export failed.");
 				return res.redirect("/accounts");
 			}
@@ -205,7 +212,8 @@ router.get("/export", function(req, res) {
 router.get("/:id", isLoggedIn, function(req, res) {
 	Account.findById(req.params.id).populate("comments").populate("logs").exec(function(err, foundAccount) {
 		if(err || !foundAccount) {
-			req.flash("error", "Unable to find the account. Please note the account number and contact support.");
+			errorLogger.error(`Account Show Failure:\n\t${ err }`);
+			req.flash("error", "Unable to find the account.");
 			res.redirect("/accounts");
 		} else {
 			res.render("accounts/show", { account: foundAccount });
@@ -224,10 +232,10 @@ router.get("/:id/edit", isLoggedIn, checkAccountOwnership, function(req, res) {
 router.put("/:id",isLoggedIn, checkAccountOwnership, function(req, res) {
 	Account.findByIdAndUpdate(req.params.id, req.body.account, function(err, updatedAccount) {
 		if(err) {
+			errorLogger.error(`Account Update Failure:\n\t${ err }`);
 			req.flash("error", "Failed to update account.");
 			res.back();
 		} else {
-			console.log("=== UPDATE ===:\n" + updatedAccount);
 			req.flash("success", "Successfully updated account.");
 			res.redirect("/accounts/" + req.params.id);
 		}
@@ -238,6 +246,7 @@ router.put("/:id",isLoggedIn, checkAccountOwnership, function(req, res) {
 router.delete("/:id", isLoggedIn, checkAccountOwnership, function(req, res) {
 	Account.findByIdAndRemove(req.params.id, function(err) {
 		if(err) {
+			errorLogger.error(`Account Delete Failure:\n\t${ err }`);
 			req.flash("error", "Failed to delete account.");
 			res.back();
 		} else {
