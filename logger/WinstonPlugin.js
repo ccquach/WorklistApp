@@ -1,5 +1,6 @@
 'use strict';
 const Winston = require("winston");
+const WinstonRotateFile = require("winston-daily-rotate-file");
 const fs = require("fs");
 const moment = require("moment-timezone");
 
@@ -28,8 +29,10 @@ if(!fs.existsSync(userLogDir)) {
 // file loggers
 Winston.loggers.add("errorLogger", {
 	transports: [
-		new(Winston.transports.File) ({
-			filename: `${errorLogDir}/${dateFormat}-error.log`,			
+		new(WinstonRotateFile) ({
+			filename: `${errorLogDir}/-error.log`,
+			prepend: true,
+			datePattern: "yyyy-MM-dd-HH",		
 			level: "error",
 			timestamp: tsFormat,
 			json: false
@@ -38,8 +41,10 @@ Winston.loggers.add("errorLogger", {
 });
 Winston.loggers.add("queryLogger", {
 	transports: [
-		new(Winston.transports.File) ({
-			filename: `${queryLogDir}/${dateFormat}-query.log`,			
+		new(WinstonRotateFile) ({
+			filename: `${queryLogDir}/-query.log`,	
+			prepend: true,
+			datePattern: "yyyy-MM-dd-HH",		
 			level: "debug",
 			timestamp: tsFormat,
 			json: false
@@ -48,8 +53,10 @@ Winston.loggers.add("queryLogger", {
 });
 Winston.loggers.add("userLogger", {
 	transports: [
-		new(Winston.transports.File) ({
-			filename: `${userLogDir}/${dateFormat}-user.log`,		
+		new(WinstonRotateFile) ({
+			filename: `${userLogDir}/-user.log`,	
+			prepend: true,
+			datePattern: "yyyy-MM-dd-HH",		
 			level: "info",
 			timestamp: tsFormat,
 			json: false
