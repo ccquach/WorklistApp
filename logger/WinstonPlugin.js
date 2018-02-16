@@ -25,47 +25,36 @@ if(!fs.existsSync(userLogDir)) {
 	fs.mkdirSync(userLogDir);
 }
 
-// shared console logger
-Winston.remove(Winston.transports.Console);
-Winston.addColors({
-	error: "red",
-	warn: "yellow",
-	info: "cyan",
-	debug: "green"
-});
-Winston.loggers.options.transports = [
-	new Winston.transports.Console ({
-		level: "debug",
-		colorize: true,
-		timestamp: tsFormat,
-		prettyPrint: true
-	})
-];
-
 // file loggers
 Winston.loggers.add("errorLogger", {
-	file: {
-		filename: `${errorLogDir}/${dateFormat}-error.log`,			
-		level: "error",
-		timestamp: tsFormat,
-		json: false
-	}
+	transports: [
+		new(Winston.transports.File) ({
+			filename: `${errorLogDir}/${dateFormat}-error.log`,			
+			level: "error",
+			timestamp: tsFormat,
+			json: false
+		})
+	]
 });
 Winston.loggers.add("queryLogger", {
-	file: {
-		filename: `${queryLogDir}/${dateFormat}-query.log`,			
-		level: "debug",
-		timestamp: tsFormat,
-		json: false
-	}
+	transports: [
+		new(Winston.transports.File) ({
+			filename: `${queryLogDir}/${dateFormat}-query.log`,			
+			level: "debug",
+			timestamp: tsFormat,
+			json: false
+		})
+	]
 });
 Winston.loggers.add("userLogger", {
-	file: {
-		filename: `${userLogDir}/${dateFormat}-user.log`,		
-		level: "info",
-		timestamp: tsFormat,
-		json: false
-	}
+	transports: [
+		new(Winston.transports.File) ({
+			filename: `${userLogDir}/${dateFormat}-user.log`,		
+			level: "info",
+			timestamp: tsFormat,
+			json: false
+		})
+	]
 });
 
 module.exports = Winston;
